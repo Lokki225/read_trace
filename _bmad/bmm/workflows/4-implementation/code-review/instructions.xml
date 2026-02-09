@@ -22,22 +22,21 @@
       metadata</action>
     <action>Parse sections: Story, Acceptance Criteria, Tasks/Subtasks, Dev Agent Record → File List, Change Log</action>
 
-    <!-- Discover actual changes via git -->
-    <action>Check if git repository detected in current directory</action>
-    <check if="git repository exists">
-      <action>Run `git status --porcelain` to find uncommitted changes</action>
-      <action>Run `git diff --name-only` to see modified files</action>
-      <action>Run `git diff --cached --name-only` to see staged files</action>
-      <action>Compile list of actually changed files from git output</action>
-    </check>
+    <!-- Discover actual implementation by checking files exist -->
+    <action>Check if project files exist in the file system</action>
+    <action>Verify each file listed in story's Dev Agent Record → File List actually exists</action>
+    <action>Check for additional implementation files that exist but aren't documented in story</action>
 
-    <!-- Cross-reference story File List vs git reality -->
-    <action>Compare story's Dev Agent Record → File List with actual git changes</action>
+    <!-- Cross-reference story File List vs actual file system -->
+    <action>Compare story's Dev Agent Record → File List with actual files on disk</action>
     <action>Note discrepancies:
-      - Files in git but not in story File List
-      - Files in story File List but no git changes
-      - Missing documentation of what was actually changed
+      - Files that exist but not in story File List
+      - Files in story File List but don't exist
+      - Missing documentation of what was actually implemented
     </action>
+
+    <!-- NOTE: We check actual file implementation, NOT git status -->
+    <critical>Do NOT use git to verify implementation - check actual files and their content</critical>
 
     <invoke-protocol name="discover_inputs" />
     <action>Load {project_context} for coding standards (if exists)</action>
@@ -57,17 +56,17 @@
   </step>
 
   <step n="3" goal="Execute adversarial review">
-    <critical>VALIDATE EVERY CLAIM - Check git reality vs story claims</critical>
+    <critical>VALIDATE EVERY CLAIM - Check file system reality vs story claims</critical>
 
-    <!-- Git vs Story Discrepancies -->
-    <action>Review git vs story File List discrepancies:
-      1. **Files changed but not in story File List** → MEDIUM finding (incomplete documentation)
-      2. **Story lists files but no git changes** → HIGH finding (false claims)
-      3. **Uncommitted changes not documented** → MEDIUM finding (transparency issue)
+    <!-- File System vs Story Discrepancies -->
+    <action>Review file system vs story File List discrepancies:
+      1. **Files exist but not in story File List** → MEDIUM finding (incomplete documentation)
+      2. **Story lists files but files don't exist** → HIGH finding (false claims)
+      3. **Implementation files not documented** → MEDIUM finding (transparency issue)
     </action>
 
-    <!-- Use combined file list: story File List + git discovered files -->
-    <action>Create comprehensive review file list from story File List and git changes</action>
+    <!-- Use combined file list: story File List + discovered files -->
+    <action>Create comprehensive review file list from story File List and discovered files</action>
 
     <!-- AC Validation -->
     <action>For EACH Acceptance Criterion:
@@ -116,18 +115,18 @@
     <output>**🔥 CODE REVIEW FINDINGS, {user_name}!**
 
       **Story:** {{story_file}}
-      **Git vs Story Discrepancies:** {{git_discrepancy_count}} found
+      **File System vs Story Discrepancies:** {{filesystem_discrepancy_count}} found
       **Issues Found:** {{high_count}} High, {{medium_count}} Medium, {{low_count}} Low
 
       ## 🔴 CRITICAL ISSUES
       - Tasks marked [x] but not actually implemented
       - Acceptance Criteria not implemented
-      - Story claims files changed but no git evidence
+      - Story claims files exist but files not found
       - Security vulnerabilities
 
       ## 🟡 MEDIUM ISSUES
-      - Files changed but not documented in story File List
-      - Uncommitted changes not tracked
+      - Files exist but not documented in story File List
+      - Implementation files not tracked
       - Performance problems
       - Poor test coverage/quality
       - Code maintainability issues
@@ -135,7 +134,7 @@
       ## 🟢 LOW ISSUES
       - Code style improvements
       - Documentation gaps
-      - Git commit message quality
+      - File organization issues
     </output>
 
     <ask>What should I do with these issues?

@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.git
+.env*
+*.log
+.DS_Store
+_bmad
+_bmad-output
+.windsurf
+.cursor
+.claude
