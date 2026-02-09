@@ -243,14 +243,110 @@ Read Trace serves manga and comic enthusiasts who read across multiple platforms
 *Version: 1.0*
 *Status: Validated*
 
+## Implementation Examples
+
+### Example 1: Feature Development - Cross-Device Sync
+
+**Persona Focus**: Alex (Power Reader) and Jordan (Series Collector)
+
+**Feature Requirement**: Implement real-time synchronization across devices
+
+**Persona-Driven Approach**:
+1. **Alex's Perspective**: "I need to switch from desktop to mobile mid-reading session without losing my place"
+   - Acceptance Criteria: Sync within 500ms, works offline with reconnect
+   - Test Scenario: Read on desktop, switch to mobile, verify exact position restored
+
+2. **Jordan's Perspective**: "I manage 50+ series across devices and need consistent progress tracking"
+   - Acceptance Criteria: Handles large libraries (50+ series) without performance degradation
+   - Test Scenario: Update progress on 10 series simultaneously, verify all sync correctly
+
+**Implementation Result**: Feature designed to handle both power users and collectors with different usage patterns
+
+---
+
+### Example 2: UI Design - Dashboard Layout
+
+**Persona Focus**: Sam (Casual Reader) and Taylor (Binge Reader)
+
+**Design Requirement**: Create intuitive dashboard for series management
+
+**Persona-Driven Approach**:
+1. **Sam's Perspective**: "I study all week and just want to relax. Keep it simple"
+   - Design Principle: Minimal cognitive load, large touch targets for mobile
+   - Layout: Simple card-based design, one-tap resume functionality
+
+2. **Taylor's Perspective**: "I binge read on weekends and need to quickly find where I left off"
+   - Design Principle: Fast navigation, search and filtering prominent
+   - Layout: Quick-access recent series, binge session tracking
+
+**Implementation Result**: Dashboard supports both casual and power-user workflows
+
+---
+
+### Example 3: Feature Prioritization - AI Recaps
+
+**Persona Focus**: Sam (Casual Reader) - Highest Priority
+
+**Feature Decision**: Implement AI-generated recaps
+
+**Persona-Driven Rationale**:
+- Sam rated AI Recaps as ⭐⭐⭐ (Critical)
+- Use Case: "I study all week, so when I finally have time to read, I just want to relax and enjoy the story"
+- Problem Solved: Recap generation helps Sam catch up without re-reading
+
+**Implementation Timeline**: Prioritize recap feature in Phase 6 development
+
+---
+
+### Example 4: Testing Strategy - Mobile-First Approach
+
+**Persona Focus**: Sam (80% mobile), Taylor (70% mobile)
+
+**Testing Requirement**: Ensure mobile experience is excellent
+
+**Persona-Driven Approach**:
+1. **Device Testing**: Prioritize mobile devices (iPhone, Android)
+2. **Network Conditions**: Test on 4G and 3G connections (Sam's commute scenario)
+3. **Touch Interactions**: Verify all interactions work with touch (no hover states)
+4. **Performance**: Target <2s load time on mobile (Sam's expectation)
+
+**Implementation Result**: Mobile-first testing ensures 60% of users have optimal experience
+
+---
+
+### Example 5: Feature Scope - OAuth Integration
+
+**Persona Focus**: Alex (High tech savviness) and Sam (Medium tech savviness)
+
+**Feature Decision**: Support Google and Discord OAuth
+
+**Persona-Driven Rationale**:
+- Alex: "I want quick login with minimal friction"
+- Sam: "I'm not tech-savvy, so OAuth with familiar providers helps"
+- Decision: Support both Google (universal) and Discord (gaming community)
+
+**Implementation Result**: 40%+ adoption of OAuth among new users
+
+---
+
 ## Usage Guidelines
 
 ### When Using These Personas
 
 1. **Design Decisions**: Reference relevant personas when making UX choices
+   - Example: "This feature prioritizes Alex's need for cross-device sync"
+
 2. **Feature Prioritization**: Use priority matrix to guide development order
+   - Example: "AI Recaps are critical for Sam, so prioritize in Phase 6"
+
 3. **User Stories**: Write user stories from specific persona perspectives
+   - Example: "As Alex, I want to switch devices mid-reading..."
+
 4. **Testing**: Recruit users matching persona profiles for user testing
+   - Example: "Recruit 3 Alex-type users for cross-device sync testing"
+
+5. **Acceptance Criteria**: Define criteria that satisfy multiple personas
+   - Example: "Feature must work for both casual (Sam) and power users (Alex)"
 
 ### When Updating Personas
 

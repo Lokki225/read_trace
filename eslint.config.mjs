@@ -11,7 +11,19 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "dist/**",
     "next-env.d.ts",
+    // Additional ignores for common patterns:
+    "node_modules/**",
+    ".git/**",
+    ".env*",
+    "*.log",
+    ".DS_Store",
+    "_bmad/**",
+    "_bmad-output/**",
+    ".windsurf/**",
+    ".cursor/**",
+    ".claude/**",
   ]),
 ]);
 

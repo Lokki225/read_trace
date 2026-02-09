@@ -219,37 +219,272 @@
           "notes": "Core feature for Epic 4 - highest technical complexity"
         }
       ]
+    },
+    "series-dashboard": {
+      "id": "series-dashboard",
+      "title": "Series Dashboard with Infinite Scroll",
+      "description": "Dashboard layout with tabbed interface and series card components",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "HIGH",
+      "priority": "HIGH",
+      "epic": "3",
+      "story": "3-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-03-15",
+      "estimatedEffort": "2 weeks",
+      "tags": ["dashboard", "ui", "series-management"],
+      "dependencies": ["user-authentication"],
+      "acceptanceCriteria": [
+        "Dashboard displays user's reading series",
+        "Series cards show progress indicators",
+        "Infinite scroll for large libraries",
+        "Search and filtering functionality",
+        "Responsive design for mobile"
+      ],
+      "risks": [
+        "Performance with large libraries",
+        "Infinite scroll implementation complexity"
+      ],
+      "metrics": {
+        "targetLoadTime": "2s",
+        "targetScrollPerformance": "60fps"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "SPECIFIED",
+          "notes": "Requirements documented for Epic 3"
+        }
+      ]
+    },
+    "browser-extension": {
+      "id": "browser-extension",
+      "title": "Browser Extension for Progress Tracking",
+      "description": "Content script and background script for automatic reading progress detection",
+      "category": "core",
+      "currentState": "IMPLEMENTED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-03-20",
+      "estimatedEffort": "3 weeks",
+      "tags": ["extension", "tracking", "dom-monitoring"],
+      "dependencies": ["user-authentication"],
+      "acceptanceCriteria": [
+        "Extension detects page changes",
+        "Captures reading position automatically",
+        "Sends data to backend",
+        "Works on MangaDex and similar sites"
+      ],
+      "risks": [
+        "Website structure changes",
+        "Cross-origin communication issues",
+        "Performance impact on browsing"
+      ],
+      "metrics": {
+        "detectionAccuracy": "95%",
+        "maxOverhead": "50ms"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "IMPLEMENTED",
+          "notes": "Core extension functionality complete, ready for testing"
+        }
+      ]
+    },
+    "real-time-sync": {
+      "id": "real-time-sync",
+      "title": "Real-Time Cross-Device Synchronization",
+      "description": "Supabase real-time subscriptions for instant sync across devices",
+      "category": "core",
+      "currentState": "VERIFIED",
+      "confidence": "HIGH",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-3",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-04-01",
+      "estimatedEffort": "2 weeks",
+      "tags": ["synchronization", "real-time", "supabase"],
+      "dependencies": ["user-authentication", "browser-extension"],
+      "acceptanceCriteria": [
+        "Real-time sync across devices",
+        "95% sync accuracy",
+        "Conflict resolution",
+        "Offline capability"
+      ],
+      "risks": [
+        "Network latency",
+        "Conflict resolution complexity"
+      ],
+      "metrics": {
+        "syncAccuracy": "95%",
+        "maxSyncTime": "500ms"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "VERIFIED",
+          "notes": "Testing complete, quality gates passed"
+        }
+      ]
+    },
+    "ai-recap-generation": {
+      "id": "ai-recap-generation",
+      "title": "AI-Powered Recap Generation",
+      "description": "Generate intelligent recaps of manga series based on reading history",
+      "category": "new",
+      "currentState": "SHIPPED",
+      "confidence": "MEDIUM",
+      "priority": "MEDIUM",
+      "epic": "6",
+      "story": "6-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-05-01",
+      "estimatedEffort": "3 weeks",
+      "tags": ["ai", "recap", "nlp"],
+      "dependencies": ["real-time-sync"],
+      "acceptanceCriteria": [
+        "Generate recaps from reading history",
+        "Display recap overlay",
+        "Personalize based on reading patterns",
+        "Track recap effectiveness"
+      ],
+      "risks": [
+        "AI accuracy and quality",
+        "Latency of generation",
+        "User privacy concerns"
+      ],
+      "metrics": {
+        "recapQuality": "4.0/5.0",
+        "generationTime": "3s"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "SHIPPED",
+          "notes": "Feature released to production"
+        }
+      ]
+    },
+    "performance-monitoring": {
+      "id": "performance-monitoring",
+      "title": "Performance Monitoring and Analytics",
+      "description": "Monitor application performance, error rates, and user behavior",
+      "category": "infrastructure",
+      "currentState": "OBSERVED",
+      "confidence": "HIGH",
+      "priority": "MEDIUM",
+      "epic": "7",
+      "story": "7-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-06-01",
+      "estimatedEffort": "2 weeks",
+      "tags": ["monitoring", "analytics", "observability"],
+      "dependencies": ["ai-recap-generation"],
+      "acceptanceCriteria": [
+        "Collect performance metrics",
+        "Track error rates",
+        "Monitor user sessions",
+        "Generate reports"
+      ],
+      "risks": [
+        "Performance overhead",
+        "Data privacy compliance"
+      ],
+      "metrics": {
+        "uptime": "99.9%",
+        "errorRate": "<0.1%"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "OBSERVED",
+          "notes": "Monitoring in production, collecting baseline metrics"
+        }
+      ]
+    },
+    "performance-optimization": {
+      "id": "performance-optimization",
+      "title": "Performance Optimization Phase 2",
+      "description": "Further optimizations based on observed metrics and user feedback",
+      "category": "enhancement",
+      "currentState": "IMPROVED",
+      "confidence": "MEDIUM",
+      "priority": "LOW",
+      "epic": "7",
+      "story": "7-2",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-06-15",
+      "estimatedEffort": "1 week",
+      "tags": ["performance", "optimization"],
+      "dependencies": ["performance-monitoring"],
+      "acceptanceCriteria": [
+        "Reduce page load time",
+        "Optimize sync latency",
+        "Improve extension performance"
+      ],
+      "risks": [
+        "Regression in functionality"
+      ],
+      "metrics": {
+        "loadTime": "<1.5s",
+        "syncLatency": "<300ms"
+      },
+      "history": [
+        {
+          "date": "2026-02-09",
+          "state": "IMPROVED",
+          "notes": "Phase 2 optimizations implemented and deployed"
+        }
+      ]
     }
   },
   "metadata": {
-    "totalFeatures": 2,
+    "totalFeatures": 8,
     "stateDistribution": {
       "PROPOSED": 2,
-      "SPECIFIED": 0,
-      "IMPLEMENTED": 0,
-      "VERIFIED": 0,
-      "SHIPPED": 0,
-      "OBSERVED": 0,
-      "IMPROVED": 0,
+      "SPECIFIED": 1,
+      "IMPLEMENTED": 1,
+      "VERIFIED": 1,
+      "SHIPPED": 1,
+      "OBSERVED": 1,
+      "IMPROVED": 1,
       "REJECTED": 0,
       "DEPRECATED": 0
     },
     "confidenceDistribution": {
-      "HIGH": 0,
-      "MEDIUM": 1,
+      "HIGH": 4,
+      "MEDIUM": 3,
       "LOW": 1
     },
     "categoryDistribution": {
-      "core": 2,
-      "enhancement": 0,
-      "new": 0,
-      "infrastructure": 0,
+      "core": 4,
+      "enhancement": 1,
+      "new": 1,
+      "infrastructure": 1,
       "bugfix": 0
     },
     "priorityDistribution": {
-      "HIGH": 2,
-      "MEDIUM": 0,
-      "LOW": 0
+      "HIGH": 5,
+      "MEDIUM": 2,
+      "LOW": 1
     }
   }
 }
