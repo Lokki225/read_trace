@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadTrace UX Design Directions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FF7A45 0%, #FFC48C 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .directions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .direction-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .direction-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .direction-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .direction-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 0.5rem;
+        }
+        
+        .direction-subtitle {
+            color: #6C757D;
+            font-size: 0.9rem;
+        }
+        
+        .direction-content {
+            padding: 1.5rem;
+        }
+        
+        .mockup {
+            background: #FFF8F2;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #FFEDE3;
+        }
+        
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #FFEDE3;
+        }
+        
+        .mockup-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #FF6B6B; }
+        .dot-yellow { background: #FFC48C; }
+        .dot-green { background: #3AB0FF; }
+        
+        .mockup-title {
+            font-size: 0.8rem;
+            color: #6C757D;
+            margin-left: auto;
+        }
+        
+        .dashboard-preview {
+            display: grid;
+            gap: 0.8rem;
+        }
+        
+        .series-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #FFEDE3;
+            transition: all 0.2s ease;
+        }
+        
+        .series-card:hover {
+            border-color: #FF7A45;
+            box-shadow: 0 2px 8px rgba(255, 122, 69, 0.1);
+        }
+        
+        .series-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .series-title {
+            font-weight: 600;
+            color: #222222;
+            font-size: 0.9rem;
+        }
+        
+        .series-meta {
+            font-size: 0.8rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resume-btn {
+            background: #FF7A45;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .resume-btn:hover {
+            background: #FF6A30;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #FFC48C;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .feature-tag {
+            background: #FFEDE3;
+            color: #FF7A45;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #FFEDE3;
+        }
+        
+        .nav-item {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            background: #FF7A45;
+            color: white;
+        }
+        
+        .nav-item:not(.active) {
+            background: #f8f9fa;
+            color: #6C757D;
+        }
+        
+        .nav-item:not(.active):hover {
+            background: #e9ecef;
+        }
+        
+        .comparison-tools {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #222222;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .comparison-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .comparison-label {
+            font-size: 0.8rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FF7A45;
+        }
+        
+        .detailed-cards-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #222222;
+        }
+        
+        .tabs-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 1rem;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #6C757D;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -1rem;
+        }
+        
+        .tab-button.active {
+            color: #FF7A45;
+            border-bottom-color: #FF7A45;
+        }
+        
+        .tab-button:hover:not(.active) {
+            color: #222222;
+        }
+        
+        .detailed-card {
+            background: white;
+            border: 1px solid #FFEDE3;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .detailed-card:hover {
+            border-color: #FF7A45;
+            box-shadow: 0 4px 12px rgba(255, 122, 69, 0.15);
+        }
+        
+        .detailed-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1.5rem;
+        }
+        
+        .detailed-card-image {
+            width: 100px;
+            height: 140px;
+            background: linear-gradient(135deg, #FFEDE3 0%, #FFC48C 100%);
+            border-radius: 8px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 2px 8px rgba(255, 122, 69, 0.15);
+        }
+        
+        .detailed-card-title-group {
+            flex: 1;
+        }
+        
+        .detailed-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 0.25rem;
+        }
+        
+        .detailed-card-genre {
+            font-size: 0.85rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detailed-card-action {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .resume-btn-large {
+            background: #FF7A45;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .resume-btn-large:hover {
+            background: #FF6A30;
+        }
+        
+        .detailed-card-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .detail-icon {
+            font-size: 1.1rem;
+        }
+        
+        .detail-label {
+            color: #6C757D;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: #222222;
+            font-weight: 600;
+        }
+        
+        .progress-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .progress-label {
+            font-size: 0.85rem;
+            color: #6C757D;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress-bar-large {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill-large {
+            height: 100%;
+            background: #FFC48C;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-reading {
+            background: #FFEDE3;
+            color: #FF7A45;
+        }
+        
+        .status-completed {
+            background: #d4f4dd;
+            color: #3AB0FF;
+        }
+        
+        .status-onhold {
+            background: #ffe9e9;
+            color: #FF6B6B;
+        }
+        
+        @media (max-width: 768px) {
+            .directions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .detailed-card-header {
+                flex-direction: column;
+            }
+            
+            .detailed-card-action {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ReadTrace UX Design Directions</h1>
+        <p>Interactive design exploration for your reading continuity system</p>
+    </div>
+    
+    <div class="container">
+        <div class="directions-grid">
+            <!-- Direction 1: Minimalist Dashboard -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 1: Minimalist Dashboard</div>
+                    <div class="direction-subtitle">Clean, focused, series-centric</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace dashboard</div>
+                        </div>
+                        <div class="dashboard-preview">
+                            <div class="series-card">
+                                <div class="series-header">
+                                    <div class="series-title">One Piece</div>
+                                    <button class="resume-btn">Resume</button>
+                                </div>
+                                <div class="series-meta">Chapter 1105 • Page 42 • MangaDex</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="series-card">
+                                <div class="series-header">
+                                    <div class="series-title">Solo Leveling</div>
+                                    <button class="resume-btn">Resume</button>
+                                </div>
+                                <div class="series-meta">Chapter 201 • Page 8 • Tachiyomi</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Minimal UI</span>
+                        <span class="feature-tag">Quick Resume</span>
+                        <span class="feature-tag">Progress Bars</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direction 2: Card-Based Layout -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 2: Card-Based Layout</div>
+                    <div class="direction-subtitle">Visual, organized, scannable</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace library</div>
+                        </div>
+                        <div class="dashboard-preview">
+                            <div class="series-card" style="background: linear-gradient(135deg, #FFF8F2 0%, #FFEDE3 100%);">
+                                <div class="series-header">
+                                    <div class="series-title">📚 One Piece</div>
+                                    <button class="resume-btn">Continue</button>
+                                </div>
+                                <div class="series-meta">⚡ New chapter available • 75% complete</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%; background: #3AB0FF;"></div>
+                                </div>
+                            </div>
+                            <div class="series-card" style="background: linear-gradient(135deg, #FFF8F2 0%, #FFEDE3 100%);">
+                                <div class="series-header">
+                                    <div class="series-title">📖 Solo Leveling</div>
+                                    <button class="resume-btn">Continue</button>
+                                </div>
+                                <div class="series-meta">📖 Last read 2 days ago • 45% complete</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%; background: #3AB0FF;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Visual Cards</span>
+                        <span class="feature-tag">Status Icons</span>
+                        <span class="feature-tag">Gradient BG</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direction 3: List View with Details -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 3: Detailed List View</div>
+                    <div class="direction-subtitle">Information-rich, comprehensive</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace series manager</div>
+                        </div>
+                        <div class="dashboard-preview">
+                            <div class="series-card" style="border-left: 4px solid #FF7A45;">
+                                <div class="series-header">
+                                    <div>
+                                        <div class="series-title">One Piece</div>
+                                        <div class="series-meta">Action • Adventure • 1105+ chapters</div>
+                                    </div>
+                                    <button class="resume-btn">Resume Ch. 1105</button>
+                                </div>
+                                <div class="series-meta">📍 MangaDex • 📖 Page 42/45 • ⏰ 2 hours ago</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 93%;"></div>
+                                </div>
+                            </div>
+                            <div class="series-card" style="border-left: 4px solid #3AB0FF;">
+                                <div class="series-header">
+                                    <div>
+                                        <div class="series-title">Solo Leveling</div>
+                                        <div class="series-meta">Action • Fantasy • 201 chapters</div>
+                                    </div>
+                                    <button class="resume-btn">Resume Ch. 201</button>
+                                </div>
+                                <div class="series-meta">📍 Tachiyomi • 📖 Page 8/32 • ⏰ 2 days ago</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 25%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Rich Metadata</span>
+                        <span class="feature-tag">Site Tracking</span>
+                        <span class="feature-tag">Time Stamps</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direction 4: Compact Grid -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 4: Compact Grid</div>
+                    <div class="direction-subtitle">Space-efficient, power user</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace grid view</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div class="series-card" style="padding: 0.8rem;">
+                                <div class="series-title" style="font-size: 0.8rem;">One Piece</div>
+                                <div class="series-meta" style="font-size: 0.7rem;">Ch. 1105 • 93%</div>
+                                <button class="resume-btn" style="font-size: 0.7rem; padding: 0.3rem 0.6rem;">Resume</button>
+                            </div>
+                            <div class="series-card" style="padding: 0.8rem;">
+                                <div class="series-title" style="font-size: 0.8rem;">Solo Leveling</div>
+                                <div class="series-meta" style="font-size: 0.7rem;">Ch. 201 • 25%</div>
+                                <button class="resume-btn" style="font-size: 0.7rem; padding: 0.3rem 0.6rem;">Resume</button>
+                            </div>
+                            <div class="series-card" style="padding: 0.8rem;">
+                                <div class="series-title" style="font-size: 0.8rem;">Attack on Titan</div>
+                                <div class="series-meta" style="font-size: 0.7rem;">Ch. 139 • 100%</div>
+                                <button class="resume-btn" style="font-size: 0.7rem; padding: 0.3rem 0.6rem;">Resume</button>
+                            </div>
+                            <div class="series-card" style="padding: 0.8rem;">
+                                <div class="series-title" style="font-size: 0.8rem;">Demon Slayer</div>
+                                <div class="series-meta" style="font-size: 0.7rem;">Ch. 205 • 67%</div>
+                                <button class="resume-btn" style="font-size: 0.7rem; padding: 0.3rem 0.6rem;">Resume</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Dense Layout</span>
+                        <span class="feature-tag">Quick Scan</span>
+                        <span class="feature-tag">Power User</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direction 5: Tabbed Interface -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 5: Tabbed Interface</div>
+                    <div class="direction-subtitle">Organized, categorized, focused</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace organized</div>
+                        </div>
+                        <div class="navigation">
+                            <div class="nav-item active">Reading</div>
+                            <div class="nav-item">Completed</div>
+                            <div class="nav-item">On Hold</div>
+                            <div class="nav-item">Plan to Read</div>
+                        </div>
+                        <div class="dashboard-preview">
+                            <div class="series-card">
+                                <div class="series-header">
+                                    <div class="series-title">🔥 One Piece</div>
+                                    <button class="resume-btn">Resume</button>
+                                </div>
+                                <div class="series-meta">Chapter 1105 • Reading since 2021</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                            <div class="series-card">
+                                <div class="series-header">
+                                    <div class="series-title">⚡ Solo Leveling</div>
+                                    <button class="resume-btn">Resume</button>
+                                </div>
+                                <div class="series-meta">Chapter 201 • Started 2 weeks ago</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Tab Organization</span>
+                        <span class="feature-tag">Status Groups</span>
+                        <span class="feature-tag">Focused View</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direction 6: Magazine Style -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <div class="direction-title">Direction 6: Magazine Style</div>
+                    <div class="direction-subtitle">Editorial, visual, engaging</div>
+                </div>
+                <div class="direction-content">
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="mockup-title">read_trace discover</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #FF7A45 0%, #FFC48C 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; color: white;">
+                            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Continue Reading</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">3 series ready to continue</div>
+                        </div>
+                        <div class="dashboard-preview">
+                            <div class="series-card" style="background: white;">
+                                <div style="display: flex; gap: 1rem;">
+                                    <div style="width: 60px; height: 80px; background: #FFEDE3; border-radius: 4px;"></div>
+                                    <div style="flex: 1;">
+                                        <div class="series-title">One Piece</div>
+                                        <div class="series-meta">Chapter 1105 • 93% complete</div>
+                                        <button class="resume-btn" style="margin-top: 0.5rem;">Resume Reading</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="series-card" style="background: white;">
+                                <div style="display: flex; gap: 1rem;">
+                                    <div style="width: 60px; height: 80px; background: #FFEDE3; border-radius: 4px;"></div>
+                                    <div style="flex: 1;">
+                                        <div class="series-title">Solo Leveling</div>
+                                        <div class="series-meta">Chapter 201 • 25% complete</div>
+                                        <button class="resume-btn" style="margin-top: 0.5rem;">Resume Reading</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Cover Images</span>
+                        <span class="feature-tag">Hero Section</span>
+                        <span class="feature-tag">Editorial Style</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-tools">
+            <div class="comparison-title">Design Direction Comparison</div>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <div class="comparison-label">Visual Density</div>
+                    <div class="comparison-value">Low → High</div>
+                </div>
+                <div class="comparison-item">
+                    <div class="comparison-label">Information Detail</div>
+                    <div class="comparison-value">Minimal → Rich</div>
+                </div>
+                <div class="comparison-item">
+                    <div class="comparison-label">Interaction Style</div>
+                    <div class="comparison-value">Quick → Detailed</div>
+                </div>
+                <div class="comparison-item">
+                    <div class="comparison-label">User Type</div>
+                    <div class="comparison-value">Casual → Power</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Cards Section with Tabs -->
+        <div class="detailed-cards-section">
+            <div class="section-title">📊 Organized, Categorized Series Manager</div>
+            <p style="color: #6C757D; margin-bottom: 1.5rem;">Browse your reading library with detailed information and status organization</p>
+            
+            <div class="tabs-container">
+                <button class="tab-button active" onclick="switchTab('reading')">📖 Reading</button>
+                <button class="tab-button" onclick="switchTab('completed')">✅ Completed</button>
+                <button class="tab-button" onclick="switchTab('onhold')">⏸️ On Hold</button>
+                <button class="tab-button" onclick="switchTab('plantoread')">📋 Plan to Read</button>
+            </div>
+            
+            <!-- Reading Tab -->
+            <div id="reading-tab" class="tab-content">
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">📚</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">🔥 One Piece</div>
+                            <div class="detailed-card-genre">Action • Adventure • Ongoing</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge status-reading">Reading</span>
+                            <button class="resume-btn-large">Resume Ch. 1105</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">MangaDex</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Position:</span>
+                            <span class="detail-value">Page 42/45</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⏰</span>
+                            <span class="detail-label">Last Read:</span>
+                            <span class="detail-value">2 hours ago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📅</span>
+                            <span class="detail-label">Started:</span>
+                            <span class="detail-value">Jan 2021</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>93% Complete</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 93%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">⚡</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">⚡ Solo Leveling</div>
+                            <div class="detailed-card-genre">Action • Fantasy • Completed</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge status-reading">Reading</span>
+                            <button class="resume-btn-large">Resume Ch. 201</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">Tachiyomi</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Position:</span>
+                            <span class="detail-value">Page 8/32</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⏰</span>
+                            <span class="detail-label">Last Read:</span>
+                            <span class="detail-value">2 days ago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📅</span>
+                            <span class="detail-label">Started:</span>
+                            <span class="detail-value">Feb 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>45% Complete</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">🗡️</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">🗡️ Attack on Titan</div>
+                            <div class="detailed-card-genre">Action • Dark Fantasy • Completed</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge status-reading">Reading</span>
+                            <button class="resume-btn-large">Resume Ch. 130</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">MangaDex</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Position:</span>
+                            <span class="detail-value">Page 15/28</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⏰</span>
+                            <span class="detail-label">Last Read:</span>
+                            <span class="detail-value">5 days ago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📅</span>
+                            <span class="detail-label">Started:</span>
+                            <span class="detail-value">Dec 2023</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>62% Complete</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 62%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completed Tab -->
+            <div id="completed-tab" class="tab-content" style="display: none;">
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">✨</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">✨ Demon Slayer</div>
+                            <div class="detailed-card-genre">Action • Supernatural • Completed</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge status-completed">Completed</span>
+                            <button class="resume-btn-large">View Again</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">Tachiyomi</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Total Chapters:</span>
+                            <span class="detail-value">205</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⏰</span>
+                            <span class="detail-label">Completed:</span>
+                            <span class="detail-value">Jan 2024</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⭐</span>
+                            <span class="detail-label">Rating:</span>
+                            <span class="detail-value">9/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>100% Complete</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- On Hold Tab -->
+            <div id="onhold-tab" class="tab-content" style="display: none;">
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">🎨</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">🎨 Jujutsu Kaisen</div>
+                            <div class="detailed-card-genre">Action • Supernatural • Ongoing</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge status-onhold">On Hold</span>
+                            <button class="resume-btn-large">Resume Ch. 85</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">MangaDex</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Position:</span>
+                            <span class="detail-value">Page 12/40</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⏰</span>
+                            <span class="detail-label">Last Read:</span>
+                            <span class="detail-value">3 weeks ago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📝</span>
+                            <span class="detail-label">Reason:</span>
+                            <span class="detail-value">Waiting for new chapters</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>30% Complete</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Plan to Read Tab -->
+            <div id="plantoread-tab" class="tab-content" style="display: none;">
+                <div class="detailed-card">
+                    <div class="detailed-card-header">
+                        <div class="detailed-card-image">🌙</div>
+                        <div class="detailed-card-title-group">
+                            <div class="detailed-card-title">🌙 Chainsaw Man</div>
+                            <div class="detailed-card-genre">Action • Dark Fantasy • Ongoing</div>
+                        </div>
+                        <div class="detailed-card-action">
+                            <span class="status-badge" style="background: #e9ecef; color: #6C757D;">Plan to Read</span>
+                            <button class="resume-btn-large">Start Reading</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-card-content">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-label">Platform:</span>
+                            <span class="detail-value">MangaDex</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📖</span>
+                            <span class="detail-label">Total Chapters:</span>
+                            <span class="detail-value">200+</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⭐</span>
+                            <span class="detail-label">Community Rating:</span>
+                            <span class="detail-value">9.2/10</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">👥</span>
+                            <span class="detail-label">Added by:</span>
+                            <span class="detail-value">Friend recommendation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>0% Not Started</span>
+                        </div>
+                        <div class="progress-bar-large">
+                            <div class="progress-fill-large" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => tab.style.display = 'none');
+            
+            // Remove active class from all buttons
+            const allButtons = document.querySelectorAll('.tab-button');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        // Add interactive hover effects
+        document.querySelectorAll('.series-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const progressBar = this.querySelector('.progress-fill');
+                if (progressBar) {
+                    const currentWidth = progressBar.style.width;
+                    progressBar.style.width = '0%';
+                    setTimeout(() => {
+                        progressBar.style.width = currentWidth;
+                    }, 100);
+                }
+            });
+        });
+        
+        // Add click interactions for navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Add button click feedback for all resume buttons
+        document.querySelectorAll('.resume-btn, .resume-btn-large').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const originalText = this.textContent;
+                const originalBg = this.style.background;
+                this.textContent = '✓ Resumed';
+                this.style.background = '#3AB0FF';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = originalBg || '#FF7A45';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
