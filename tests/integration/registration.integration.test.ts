@@ -1,7 +1,9 @@
 import { authService, AuthServiceError } from '@/backend/services/auth/authService';
-import { createClient } from '@/lib/supabase';
+import { createServerClient } from '@/lib/supabase';
 
 jest.mock('@/lib/supabase');
+
+const mockCreateServerClient = createServerClient as jest.MockedFunction<typeof createServerClient>;
 
 describe('Registration Integration Tests', () => {
   beforeEach(() => {
@@ -23,7 +25,7 @@ describe('Registration Integration Tests', () => {
       error: null
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -49,7 +51,7 @@ describe('Registration Integration Tests', () => {
       error: { message: 'User already registered' }
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -64,7 +66,7 @@ describe('Registration Integration Tests', () => {
       error: { message: 'Email rate limit exceeded' }
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -76,7 +78,7 @@ describe('Registration Integration Tests', () => {
   it('should validate email format before calling Supabase', async () => {
     const mockSignUp = jest.fn();
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -90,7 +92,7 @@ describe('Registration Integration Tests', () => {
   it('should validate password requirements before calling Supabase', async () => {
     const mockSignUp = jest.fn();
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -116,7 +118,7 @@ describe('Registration Integration Tests', () => {
       error: null
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -135,7 +137,7 @@ describe('Registration Integration Tests', () => {
       error: { message: 'Unknown database error' }
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -150,7 +152,7 @@ describe('Registration Integration Tests', () => {
       error: null
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -174,7 +176,7 @@ describe('Registration Integration Tests', () => {
       error: null
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { signUp: mockSignUp }
     });
 
@@ -195,7 +197,7 @@ describe('Resend Confirmation Email', () => {
       error: null
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { resend: mockResend }
     });
 
@@ -215,7 +217,7 @@ describe('Resend Confirmation Email', () => {
       error: { message: 'Rate limit exceeded' }
     });
 
-    (createClient as jest.Mock).mockReturnValue({
+    (mockCreateServerClient as jest.Mock).mockReturnValue({
       auth: { resend: mockResend }
     });
 

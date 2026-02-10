@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase';
+import { createServerClient } from '@/lib/supabase';
 import { authService, AuthServiceError } from '@/backend/services/auth/authService';
 
 // Mock the Supabase client
 jest.mock('@/lib/supabase');
 
-const mockCreateClient = createClient as jest.MockedFunction<typeof createClient>;
+const mockCreateServerClient = createServerClient as jest.MockedFunction<typeof createServerClient>;
 
 describe('E2E: User Registration Flow', () => {
   const testEmail = `test-${Date.now()}@example.com`;
@@ -30,7 +30,7 @@ describe('E2E: User Registration Flow', () => {
         error: null
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -49,7 +49,7 @@ describe('E2E: User Registration Flow', () => {
         error: null
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { resend: mockResend }
       } as any);
 
@@ -71,7 +71,7 @@ describe('E2E: User Registration Flow', () => {
         error: { message: 'User already registered' }
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -86,7 +86,7 @@ describe('E2E: User Registration Flow', () => {
         error: { message: 'Email rate limit exceeded' }
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -101,7 +101,7 @@ describe('E2E: User Registration Flow', () => {
         error: { message: 'Service temporarily unavailable' }
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -116,7 +116,7 @@ describe('E2E: User Registration Flow', () => {
         error: null
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -130,7 +130,7 @@ describe('E2E: User Registration Flow', () => {
     it('should validate email format before calling Supabase', async () => {
       const mockSignUp = jest.fn();
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -144,7 +144,7 @@ describe('E2E: User Registration Flow', () => {
     it('should validate password before calling Supabase', async () => {
       const mockSignUp = jest.fn();
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -170,7 +170,7 @@ describe('E2E: User Registration Flow', () => {
         error: null
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -200,7 +200,7 @@ describe('E2E: User Registration Flow', () => {
         error: null
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { signUp: mockSignUp }
       } as any);
 
@@ -216,7 +216,7 @@ describe('E2E: User Registration Flow', () => {
         error: { message: 'Rate limit exceeded' }
       });
 
-      mockCreateClient.mockReturnValue({
+      mockCreateServerClient.mockReturnValue({
         auth: { resend: mockResend }
       } as any);
 

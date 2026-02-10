@@ -45,7 +45,7 @@ export function RegisterForm() {
         return;
       }
 
-      router.push('/register/confirm');
+      router.push(`/register/confirm?email=${encodeURIComponent(data.email)}`);
     } catch (error) {
       setServerError('An unexpected error occurred. Please try again.');
       console.error('Registration error:', error);

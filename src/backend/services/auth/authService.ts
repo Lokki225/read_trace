@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase';
+import { createServerClient } from '@/lib/supabase';
 import { registrationSchema, type RegistrationFormData } from '@/model/validation/authValidation';
 import type { RegistrationResult } from '@/model/schemas/user';
 
@@ -29,7 +29,7 @@ export class AuthService {
 
       const { email: normalizedEmail, password: validatedPassword } = validationResult.data;
 
-      const supabase = createClient();
+      const supabase = await createServerClient();
 
       const { data, error } = await supabase.auth.signUp({
         email: normalizedEmail,
@@ -100,7 +100,7 @@ export class AuthService {
   }
 
   async resendConfirmationEmail(email: string): Promise<void> {
-    const supabase = createClient();
+    const supabase = await createServerClient();
 
     const { error } = await supabase.auth.resend({
       type: 'signup',

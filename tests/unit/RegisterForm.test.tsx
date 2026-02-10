@@ -108,7 +108,7 @@ describe('RegisterForm Component', () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/register/confirm');
+      expect(mockPush).toHaveBeenCalledWith('/register/confirm?email=test%40example.com');
     });
   });
 

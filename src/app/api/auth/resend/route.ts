@@ -3,32 +3,24 @@ import { authService, AuthServiceError } from '@/backend/services/auth/authServi
 
 export async function POST(request: NextRequest) {
   try {
-    // Debug: Check environment variables
-    console.log('Environment check:', {
-      hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      hasAppUrl: !!process.env.NEXT_PUBLIC_APP_URL
-    });
-
     const body = await request.json();
-    const { email, password } = body;
+    const { email } = body;
 
-    if (!email || !password) {
+    if (!email) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: 'Email is required' },
         { status: 400 }
       );
     }
 
-    const result = await authService.signUp(email, password);
+    await authService.resendConfirmationEmail(email);
 
     return NextResponse.json(
       {
         success: true,
-        user: result.user,
-        requiresEmailConfirmation: result.requiresEmailConfirmation
+        message: 'Confirmation email sent successfully'
       },
-      { status: 201 }
+      { status: 200 }
     );
 
   } catch (error) {
@@ -45,7 +37,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Unexpected registration error:', {
+    console.error('Unexpected resend error:', {
       error: error,
       message: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : 'No stack trace'
