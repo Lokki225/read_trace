@@ -8,6 +8,8 @@ const mockCreateServerClient = createServerClient as jest.MockedFunction<typeof 
 describe('Registration Integration Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Mock environment variable
+    process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
   });
 
   it('should successfully register a new user', async () => {
@@ -37,7 +39,7 @@ describe('Registration Integration Tests', () => {
       email: 'test@example.com',
       password: 'SecurePass123!',
       options: expect.objectContaining({
-        emailRedirectTo: expect.stringContaining('/auth/callback'),
+        emailRedirectTo: expect.stringContaining('/auth/confirm-email'),
         data: {
           email: 'test@example.com'
         }

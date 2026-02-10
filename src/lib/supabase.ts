@@ -52,6 +52,38 @@ export type Database = {
           updated_at?: string;
         };
       };
+      oauth_providers: {
+        Row: {
+          id: string;
+          user_id: string;
+          provider_name: string;
+          provider_id: string;
+          email: string | null;
+          avatar_url: string | null;
+          linked_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          provider_name: string;
+          provider_id: string;
+          email?: string | null;
+          avatar_url?: string | null;
+          linked_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          provider_name?: string;
+          provider_id?: string;
+          email?: string | null;
+          avatar_url?: string | null;
+          linked_at?: string;
+          updated_at?: string;
+        };
+      };
     };
   };
 };
@@ -63,7 +95,7 @@ export const createClient = () => {
   );
 };
 
-export const createServerClient = async () => {
+export const createServerClient = async (): Promise<ReturnType<typeof createSupabaseServerClient<Database>>> => {
   const cookieStore = await cookies();
 
   return createSupabaseServerClient<Database>(

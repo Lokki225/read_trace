@@ -35,7 +35,7 @@ export class AuthService {
         email: normalizedEmail,
         password: validatedPassword,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm-email`,
           data: {
             email: normalizedEmail
           }

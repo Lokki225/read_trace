@@ -13,7 +13,7 @@ interface SearchParams {
   error_description?: string;
 }
 
-export default async function AuthCallbackPage({
+export default async function ConfirmEmailPage({
   searchParams,
 }: {
   searchParams: SearchParams;
