@@ -57,14 +57,14 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
       {serverError && (
-        <div className="rounded-md bg-red-50 p-4 border border-red-200">
-          <p className="text-sm text-red-800">{serverError}</p>
+        <div className="rounded-md bg-error/10 p-4 border border-error/30 dark:bg-error/20 dark:border-error/40">
+          <p className="text-sm text-error dark:text-error">{serverError}</p>
         </div>
       )}
 
       <div className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-foreground">
             Email address
           </label>
           <input
@@ -74,25 +74,25 @@ export function RegisterForm() {
             autoComplete="email"
             disabled={isLoading}
             className={cn(
-              'mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors',
+              'mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-background text-foreground placeholder-muted',
               errors.email
-                ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500'
-                : 'border-gray-300 text-gray-900 placeholder-gray-400',
-              isLoading && 'bg-gray-50 cursor-not-allowed'
+                ? 'border-error/50 focus:ring-error'
+                : 'border-border',
+              isLoading && 'opacity-50 cursor-not-allowed'
             )}
             placeholder="you@example.com"
             aria-invalid={errors.email ? 'true' : 'false'}
             aria-describedby={errors.email ? 'email-error' : undefined}
           />
           {errors.email && (
-            <p className="mt-1 text-sm text-red-600" id="email-error">
+            <p className="mt-1 text-sm text-error" id="email-error">
               {errors.email.message}
             </p>
           )}
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium text-foreground">
             Password
           </label>
           <div className="relative mt-1">
@@ -103,11 +103,11 @@ export function RegisterForm() {
               autoComplete="new-password"
               disabled={isLoading}
               className={cn(
-                'block w-full rounded-md border px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors',
+                'block w-full rounded-md border px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-background text-foreground placeholder-muted',
                 errors.password
-                  ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500'
-                  : 'border-gray-300 text-gray-900 placeholder-gray-400',
-                isLoading && 'bg-gray-50 cursor-not-allowed'
+                  ? 'border-error/50 focus:ring-error'
+                  : 'border-border',
+                isLoading && 'opacity-50 cursor-not-allowed'
               )}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
@@ -117,7 +117,7 @@ export function RegisterForm() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               disabled={isLoading}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors disabled:cursor-not-allowed"
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted hover:text-foreground transition-colors disabled:cursor-not-allowed"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -128,7 +128,7 @@ export function RegisterForm() {
             </button>
           </div>
           {errors.password && (
-            <p className="mt-1 text-sm text-red-600" id="password-error">
+            <p className="mt-1 text-sm text-error" id="password-error">
               {errors.password.message}
             </p>
           )}
@@ -145,8 +145,8 @@ export function RegisterForm() {
           type="submit"
           disabled={isLoading}
           className={cn(
-            'w-full flex justify-center items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors',
-            isLoading && 'bg-blue-400 cursor-not-allowed'
+            'w-full flex justify-center items-center gap-2 rounded-md bg-primary text-background px-4 py-2 text-sm font-semibold shadow-sm hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background transition-colors',
+            isLoading && 'opacity-50 cursor-not-allowed'
           )}
         >
           {isLoading ? (
@@ -160,13 +160,13 @@ export function RegisterForm() {
         </button>
       </div>
 
-      <div className="text-xs text-gray-500 text-center">
+      <div className="text-xs text-muted text-center">
         By creating an account, you agree to our{' '}
-        <a href="/terms" className="text-blue-600 hover:text-blue-500 underline">
+        <a href="/terms" className="text-primary hover:text-primary-dark underline transition-colors">
           Terms of Service
         </a>{' '}
         and{' '}
-        <a href="/privacy" className="text-blue-600 hover:text-blue-500 underline">
+        <a href="/privacy" className="text-primary hover:text-primary-dark underline transition-colors">
           Privacy Policy
         </a>
       </div>

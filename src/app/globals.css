@@ -1,51 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  /* Read Trace Brand Colors */
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #3b82f6;
-  --primary-dark: #1e40af;
+  /* ReadTrace Brand Colors - Light Mode */
+  --background: #FFF8F2;
+  --foreground: #222222;
+  --primary: #FF7A45;
+  --primary-dark: #FF6A30;
   --secondary: #8b5cf6;
-  --accent: #ec4899;
-  --success: #10b981;
+  --accent: #FFEDE3;
+  --success: #3AB0FF;
   --warning: #f59e0b;
-  --error: #ef4444;
-  --border: #e5e7eb;
-  --muted: #6b7280;
+  --error: #FF6B6B;
+  --border: #FFE5D5;
+  --muted: #6C757D;
+  
+  /* Brand Palette */
+  --brand-orange: #FF7A45;
+  --brand-orange-hover: #FF6A30;
+  --brand-cream: #FFF8F2;
+  --brand-peach: #FFEDE3;
+  --brand-charcoal: #222222;
+  --brand-gray: #6C757D;
+  --brand-progress: #FFC48C;
+  --brand-teal: #3AB0FF;
   
   /* Semantic Colors */
-  --reading-progress: #3b82f6;
-  --sync-active: #10b981;
-  --sync-pending: #f59e0b;
-  --sync-error: #ef4444;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --reading-progress: #FF7A45;
+  --sync-active: #3AB0FF;
+  --sync-pending: #FFC48C;
+  --sync-error: #FF6B6B;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #60a5fa;
-    --primary-dark: #3b82f6;
+    /* ReadTrace Brand Colors - Dark Mode */
+    --background: #1a1a1a;
+    --foreground: #f5f5f5;
+    --primary: #FF8A5A;
+    --primary-dark: #FF7A45;
     --secondary: #a78bfa;
-    --accent: #f472b6;
-    --border: #374151;
-    --muted: #9ca3af;
+    --accent: #2d2d2d;
+    --success: #4BC0FF;
+    --warning: #fbbf24;
+    --error: #FF7A7A;
+    --border: #2d2d2d;
+    --muted: #a0a0a0;
+    
+    /* Brand Palette - Dark */
+    --brand-orange: #FF8A5A;
+    --brand-orange-hover: #FF7A45;
+    --brand-cream: #1a1a1a;
+    --brand-peach: #2d2d2d;
+    --brand-charcoal: #f5f5f5;
+    --brand-gray: #a0a0a0;
+    --brand-progress: #FFD4A3;
+    --brand-teal: #4BC0FF;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

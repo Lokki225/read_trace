@@ -14,15 +14,15 @@ export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicato
   const strengthColor = getPasswordStrengthColor(validation.score) as 'red' | 'yellow' | 'green';
 
   const colorClasses: Record<'red' | 'yellow' | 'green', string> = {
-    red: 'bg-red-500',
-    yellow: 'bg-yellow-500',
-    green: 'bg-green-500'
+    red: 'bg-error',
+    yellow: 'bg-warning',
+    green: 'bg-success'
   };
 
   const textColorClasses: Record<'red' | 'yellow' | 'green', string> = {
-    red: 'text-red-700',
-    yellow: 'text-yellow-700',
-    green: 'text-green-700'
+    red: 'text-error',
+    yellow: 'text-warning',
+    green: 'text-success'
   };
 
   const barWidth = `${validation.score}%`;
@@ -30,13 +30,13 @@ export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicato
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-gray-700">Password strength</span>
+        <span className="text-xs font-medium text-foreground">Password strength</span>
         <span className={cn('text-xs font-semibold', textColorClasses[strengthColor])}>
           {strengthLabel}
         </span>
       </div>
 
-      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-2 w-full bg-border rounded-full overflow-hidden">
         <div
           className={cn('h-full transition-all duration-300 ease-out', colorClasses[strengthColor])}
           style={{ width: barWidth }}
@@ -51,8 +51,8 @@ export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicato
       {validation.errors.length > 0 && (
         <ul className="mt-2 space-y-1" role="list">
           {validation.errors.map((error, index) => (
-            <li key={index} className="text-xs text-red-600 flex items-start gap-1">
-              <span className="text-red-500 mt-0.5">•</span>
+            <li key={index} className="text-xs text-error flex items-start gap-1">
+              <span className="text-error mt-0.5">•</span>
               <span>{error}</span>
             </li>
           ))}
@@ -61,7 +61,7 @@ export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicato
 
       {validation.isValid && validation.score < 70 && (
         <div className="mt-2">
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-muted">
             <span className="font-medium">Tip:</span> Use a longer password with mixed characters for better security.
           </p>
         </div>
