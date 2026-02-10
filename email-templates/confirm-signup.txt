@@ -1,0 +1,38 @@
+Welcome to ReadTrace!
+
+Thank you for signing up. To complete your registration and start tracking your reading progress, please confirm your email address by clicking the button below.
+
+[Confirm Email Address]({{ .ConfirmationURL }})
+
+Or copy and paste this link in your browser:
+{{ .ConfirmationURL }}
+
+---
+
+SECURITY NOTE:
+Didn't sign up for ReadTrace? If you didn't create this account, you can safely ignore this email. Your email won't be confirmed unless you click the button above.
+
+---
+
+This confirmation link will expire in 24 hours. If it expires, you can request a new confirmation email from the registration page.
+
+WHAT'S NEXT?
+Once you confirm your email, you'll be able to:
+- Start tracking your reading progress
+- Manage your reading lists
+- Sync across all your devices
+- Connect with other readers
+
+NEED HELP?
+If you have any questions, visit our Help Center at https://readtrace.com/help or contact us at support@readtrace.com
+
+---
+
+© 2026 ReadTrace. All rights reserved.
+Privacy Policy: https://readtrace.com/privacy
+Terms of Service: https://readtrace.com/terms
+
+Follow us:
+Twitter: https://twitter.com/readtrace
+Instagram: https://instagram.com/readtrace
+Facebook: https://facebook.com/readtrace
