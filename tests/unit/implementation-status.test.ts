@@ -142,14 +142,20 @@ describe('IMPLEMENTATION_STATUS.json', () => {
       expect(story.status).toBe('done');
     });
 
-    it('should track story 1-4 as in-progress', () => {
+    it('should track story 1-4 as done', () => {
       const story = statusData.completionStatus.epic1.stories['1-4-implement-design-contracts-and-implementation-tracking'];
-      expect(story.status).toBe('in-progress');
+      expect(story.status).toBe('done');
     });
 
-    it('should track story 1-5 as ready-for-dev', () => {
+    it('should track story 1-5 as done', () => {
       const story = statusData.completionStatus.epic1.stories['1-5-configure-test-infrastructure-and-quality-tools'];
-      expect(story.status).toBe('ready-for-dev');
+      expect(story.status).toBe('done');
+    });
+
+    it('should track story 1-6 as done', () => {
+      const story = statusData.completionStatus.epic1.stories['1-6-create-ai-workflows-and-project-rules'];
+      expect(story.status).toBe('done');
+      expect(story.confidenceScore).toBe(95);
     });
   });
 

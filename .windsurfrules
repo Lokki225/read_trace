@@ -1,0 +1,194 @@
+# Windsurf IDE Rules - read_trace Project
+
+## AI Constitution Bootstrap
+
+**CRITICAL**: All AI agents MUST load and follow `docs/AI_CONSTITUTION.md` before any implementation work.
+
+The AI Constitution is the supreme behavioral authority for this project. It defines:
+- Autonomy rules and constraints
+- Quality assurance requirements
+- Story fidelity and no shortcuts policy
+- Continuous execution requirements
+- Memory and learning obligations
+
+## BMAD Framework Enforcement
+
+### Core Principles
+
+1. **Build-Measure-Adapt-Deploy (BMAD)**
+   - Build: Implement with quality-first approach
+   - Measure: Track confidence scores (≥90% required)
+   - Adapt: Learn from feedback and improve
+   - Deploy: Release with validated quality
+
+2. **Test-Driven Development (TDD)**
+   - Red: Write failing tests first
+   - Green: Implement minimal code to pass
+   - Refactor: Improve code while keeping tests green
+   - Never skip tests or mark tasks complete without passing test suite
+
+3. **Story-Driven Implementation**
+   - Follow story specifications exactly as written
+   - All acceptance criteria must be satisfied (100%)
+   - No extra features beyond story scope
+   - Tasks/subtasks must be completed in order
+
+### Quality Standards
+
+**Minimum Quality Gates:**
+- Test Coverage: ≥90% for critical paths
+- Code Quality: No critical linting errors
+- Confidence Score: ≥90% before task completion
+- Regression Prevention: 100% existing tests passing
+- Documentation: Complete and accurate
+
+**Code Quality Requirements:**
+- Follow TypeScript strict mode
+- Use proper type annotations (no `any` without justification)
+- Error handling for all edge cases
+- No hardcoded values that should be configurable
+- Consistent naming conventions (camelCase for variables, PascalCase for types)
+
+**Test Quality Requirements:**
+- Unit tests for all business logic
+- Integration tests for component interactions
+- End-to-end tests for critical user flows
+- Test names clearly describe what they validate
+- No flaky tests (must be deterministic)
+
+### Architecture Enforcement
+
+**Project Structure:**
+```
+src/
+  app/              # Next.js app directory
+  components/       # React components
+  lib/              # Utility libraries
+  types/            # TypeScript type definitions
+product/
+  features/         # Feature specifications
+  personas.md       # User personas
+  roadmap.md        # Product roadmap
+  decisions.md      # Architectural decisions
+docs/
+  ai-memory/        # AI learning and memory
+  AI_CONSTITUTION.md # Supreme authority
+tests/
+  unit/             # Unit tests
+  integration/      # Integration tests
+  factories/        # Test data factories
+  __mocks__/        # Test mocks
+```
+
+**Architectural Patterns:**
+- Component-based architecture (React)
+- Server-side rendering with Next.js
+- Type-safe API contracts
+- Separation of concerns (components, logic, data)
+- Dependency injection for testability
+
+**Forbidden Patterns:**
+- Direct DOM manipulation (use React)
+- Global mutable state (use context or state management)
+- Tight coupling between components
+- Business logic in components (extract to hooks/utils)
+- Mixing concerns (presentation with data fetching)
+
+### File Modification Rules
+
+**Story Files - Permitted Modifications:**
+- Tasks/Subtasks checkboxes: Mark [x] when complete
+- Dev Agent Record: Add implementation notes
+- File List: Track all changed files
+- Change Log: Summary of changes
+- Status: Update to reflect current state
+
+**Story Files - FORBIDDEN Modifications:**
+- Story description or title
+- Acceptance Criteria
+- Dev Notes content
+- References section
+- Any other sections
+
+**Violation Consequence:** Immediate HALT and escalation
+
+### Workflow Integration
+
+**Available Workflows:**
+- `continue-implementation.md`: Resume story implementation
+- `validate-implementation.md`: Validate with confidence guard
+- `smart-implementation.md`: Anti-simplification enforcement
+- `confidence-guard.md`: Protect confidence scores
+- `product-alignment.md`: Strategic validation
+- `auto-healing.md`: Proactive issue fixing
+
+**Workflow Requirements:**
+- All workflows bootstrap with AI Constitution
+- All workflows enforce ≥90% confidence threshold
+- All workflows prevent shortcuts and quality compromises
+- All workflows require full documentation
+
+### Memory and Learning
+
+**Required Documentation:**
+- `docs/ai-memory/resolved-issues.md`: All fixed issues
+- `docs/ai-memory/decisions.md`: Architectural decisions
+- `docs/ai-memory/pitfalls.md`: Common mistakes
+- `docs/ai-memory/command-playbook.md`: Working commands
+
+**Learning Requirements:**
+- Document all resolved issues
+- Record all technical decisions
+- Note all common pitfalls
+- Preserve successful command patterns
+
+### Escalation Protocol
+
+**HALT and Escalate When:**
+- Required dependencies missing or need approval
+- Configuration files inaccessible or incomplete
+- Acceptance criteria ambiguous or conflicting
+- More than 3 consecutive implementation failures
+- User explicitly requests review or clarification
+- Confidence score cannot reach ≥90% threshold
+- Story conflicts with product specifications
+
+**Escalation Process:**
+1. Stop all implementation work
+2. Document issue in Dev Agent Record
+3. Provide context and attempted solutions
+4. Request user guidance
+5. Wait for explicit approval to continue
+
+### Continuous Execution
+
+**Execution Requirements:**
+- Continue until story complete or HALT condition
+- No pausing for review until completion gates satisfied
+- No "session boundaries" or "milestones" interruptions
+- Complete entire story in single execution (unless halted)
+
+**Completion Gates:**
+- All tasks/subtasks marked [x]
+- All acceptance criteria satisfied
+- Full test suite passing
+- Confidence score ≥90%
+- File List complete
+- Documentation updated
+
+### Quality Over Speed
+
+**Principles:**
+- Never sacrifice quality for velocity
+- Never skip tests to meet deadlines
+- Never accept technical debt without documentation
+- Never implement placeholders instead of real functionality
+- Never mark tasks complete without validation
+
+**Remember:** The goal is sustainable quality, not quick delivery.
+
+---
+
+**Version:** 1.0
+**Last Updated:** 2026-02-09
+**Status:** Active
