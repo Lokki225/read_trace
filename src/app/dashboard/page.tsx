@@ -4,6 +4,7 @@ import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton';
 import { fetchUserSeriesGrouped } from '@/backend/services/dashboard/seriesQueryService';
 import { createServerClient } from '@/lib/supabase';
+import { DEV_DASHBOARD_DATA } from '@/lib/devData';
 
 export const metadata: Metadata = {
   title: 'My Library | ReadTrace',
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
 };
 
 async function DashboardContent() {
+  if (process.env.NEXT_PUBLIC_DEV_PREVIEW === 'true') {
+    return <DashboardTabs data={DEV_DASHBOARD_DATA} />;
+  }
+
   const supabase = await createServerClient();
   const {
     data: { user },

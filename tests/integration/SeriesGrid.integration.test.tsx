@@ -45,19 +45,23 @@ describe('SeriesGrid Integration', () => {
   });
 
   describe('TC 1.3: Full card content renders correctly', () => {
-    it('renders title, platform, status badge, and progress bar for each card', () => {
+    it('renders title, platform, status badge, and progress indicator for each card', () => {
       const series = makeSeriesArray(1, {
         title: 'Attack on Titan',
         platform: 'mangadex',
         status: SeriesStatus.READING,
         progress_percentage: 65,
         genres: ['action', 'adventure'],
+        current_chapter: 1,
+        total_chapters: null,
       });
       render(<SeriesGrid series={series} />);
       expect(screen.getByText('Attack on Titan')).toBeInTheDocument();
       expect(screen.getByText('mangadex')).toBeInTheDocument();
       expect(screen.getByTestId('status-badge')).toHaveTextContent('Reading');
-      expect(screen.getByTestId('progress-fill')).toHaveStyle({ width: '65%' });
+      const progressBar = screen.getByRole('progressbar');
+      expect(progressBar).toHaveAttribute('aria-valuenow', '65');
+      expect(screen.getByText('65%')).toBeInTheDocument();
     });
   });
 

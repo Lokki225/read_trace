@@ -2,7 +2,7 @@ import { memo } from 'react';
 import Image from 'next/image';
 import { UserSeries } from '@/model/schemas/dashboard';
 import { StatusBadge } from './StatusBadge';
-import { ProgressBar } from './ProgressBar';
+import { ProgressIndicator } from './ProgressIndicator';
 
 interface SeriesCardProps {
   series: UserSeries;
@@ -103,9 +103,14 @@ function SeriesCardInner({ series, index = 0, onClick }: SeriesCardProps) {
           </div>
         )}
 
-        {/* Progress bar */}
+        {/* Progress indicator */}
         <div className="mt-auto pt-1">
-          <ProgressBar percentage={series.progress_percentage} />
+          <ProgressIndicator
+            current_chapter={series.current_chapter}
+            total_chapters={series.total_chapters}
+            progress_percentage={series.progress_percentage}
+            last_read_at={series.last_read_at}
+          />
         </div>
       </div>
     </article>

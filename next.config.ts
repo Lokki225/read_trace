@@ -6,6 +6,22 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   
+  /* Image Optimization */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'uploads.mangadex.org',
+        pathname: '/covers/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/storage/**',
+      },
+    ],
+  },
+  
   /* Note: Turbopack is enabled via `npm run dev` command in Next.js 16+ */
 };
 

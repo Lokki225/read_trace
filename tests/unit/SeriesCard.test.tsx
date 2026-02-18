@@ -131,17 +131,29 @@ describe('SeriesCard', () => {
     });
   });
 
-  describe('Progress bar', () => {
-    it('renders progress bar with correct percentage', () => {
+  describe('Progress indicator', () => {
+    it('renders progress indicator with correct percentage', () => {
       render(<SeriesCard series={makeSeries({ progress_percentage: 65 })} />);
-      const fill = screen.getByTestId('progress-fill');
-      expect(fill).toHaveStyle({ width: '65%' });
+      const progressBar = screen.getByRole('progressbar');
+      expect(progressBar).toHaveAttribute('aria-valuenow', '65');
+      expect(screen.getByText('65%')).toBeInTheDocument();
     });
 
     it('renders 0% progress for unstarted series', () => {
       render(<SeriesCard series={makeSeries({ progress_percentage: 0 })} />);
-      const fill = screen.getByTestId('progress-fill');
-      expect(fill).toHaveStyle({ width: '0%' });
+      const progressBar = screen.getByRole('progressbar');
+      expect(progressBar).toHaveAttribute('aria-valuenow', '0');
+      expect(screen.getByText('0%')).toBeInTheDocument();
+    });
+
+    it('displays chapter information', () => {
+      render(<SeriesCard series={makeSeries({ current_chapter: 130, total_chapters: 139 })} />);
+      expect(screen.getByText('Ch. 130 / 139')).toBeInTheDocument();
+    });
+
+    it('displays last read date', () => {
+      render(<SeriesCard series={makeSeries()} />);
+      expect(screen.getByText(/Last read:/)).toBeInTheDocument();
     });
   });
 

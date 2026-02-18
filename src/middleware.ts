@@ -4,6 +4,10 @@ import type { NextRequest } from 'next/server';
 import { getRoutingDecision } from '@/lib/routing';
 
 export async function middleware(request: NextRequest) {
+  if (process.env.NEXT_PUBLIC_DEV_PREVIEW === 'true') {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(

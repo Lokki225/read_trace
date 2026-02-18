@@ -28,6 +28,9 @@ export type Database = {
           installation_skipped_at: string | null;
           onboarding_completed: boolean | null;
           onboarding_completed_at: string | null;
+          preferred_sites: string[];
+          preferred_sites_updated_at: string;
+          custom_sites: any[];
           created_at: string;
           updated_at: string;
         };
@@ -53,6 +56,9 @@ export type Database = {
           installation_skipped_at?: string | null;
           onboarding_completed?: boolean | null;
           onboarding_completed_at?: string | null;
+          preferred_sites?: string[];
+          preferred_sites_updated_at?: string;
+          custom_sites?: any[];
           created_at?: string;
           updated_at?: string;
         };
@@ -78,6 +84,9 @@ export type Database = {
           installation_skipped_at?: string | null;
           onboarding_completed?: boolean | null;
           onboarding_completed_at?: string | null;
+          preferred_sites?: string[];
+          preferred_sites_updated_at?: string;
+          custom_sites?: any[];
           created_at?: string;
           updated_at?: string;
         };
