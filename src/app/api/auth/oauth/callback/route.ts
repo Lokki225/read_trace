@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase';
 import type { Database } from '@/lib/supabase';
 import type { SupabaseClient as SupabaseClientType } from '@supabase/supabase-js';
-import { validateStateToken, StateTokenData } from '@/backend/services/oauth/stateTokenGenerator';
-import { getStoredStateToken, deleteStoredStateToken } from '../route';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -25,39 +23,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate required parameters
-    if (!code || !state) {
+    if (!code) {
       return NextResponse.redirect(
         new URL(
-          '/auth/login?error=invalid_request&error_description=Missing authorization code or state token',
+          '/auth/login?error=invalid_request&error_description=Missing%20authorization%20code',
           request.url
         )
       );
     }
-
-    // Validate state token for CSRF protection
-    const storedStateData = getStoredStateToken(state);
-    if (!storedStateData) {
-      return NextResponse.redirect(
-        new URL(
-          '/auth/login?error=invalid_state&error_description=Invalid or expired state token',
-          request.url
-        )
-      );
-    }
-
-    const stateValidation = validateStateToken(storedStateData, state);
-    if (!stateValidation.isValid) {
-      deleteStoredStateToken(state);
-      return NextResponse.redirect(
-        new URL(
-          `/auth/login?error=invalid_state&error_description=${encodeURIComponent(stateValidation.error || 'State validation failed')}`,
-          request.url
-        )
-      );
-    }
-
-    // Delete state token after validation
-    deleteStoredStateToken(state);
 
     const supabase = await createServerClient() as SupabaseClientType<Database>;
 
@@ -134,15 +107,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // OAuth successful - redirect to dashboard
-    const redirectUrl = new URL('/dashboard', request.url);
-    
-    // Check if this is a new user (no existing profile)
-    if (!existingProfile) {
-      redirectUrl.searchParams.set('welcome', 'true');
-    }
-
-    return NextResponse.redirect(redirectUrl);
+    // New users go to onboarding, returning users go to dashboard
+    const destination = !existingProfile ? '/onboarding' : '/dashboard';
+    return NextResponse.redirect(new URL(destination, request.url));
   } catch (error) {
     console.error('OAuth callback error:', error);
     return NextResponse.redirect(
