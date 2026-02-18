@@ -12,7 +12,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
 
   const handleOAuthSuccess = (user: any) => {
-    router.push('/dashboard');
+    router.push('/onboarding');
   };
 
   const handleOAuthError = (error: Error) => {

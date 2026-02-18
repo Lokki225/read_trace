@@ -58,7 +58,16 @@ export default function OnboardingPage() {
   const { status } = useExtensionStatus();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
 
-  const handleExtensionComplete = () => {
+  const markOnboardingComplete = async () => {
+    try {
+      await fetch('/api/onboarding/complete', { method: 'POST' });
+    } catch {
+      // Non-blocking — proceed regardless
+    }
+  };
+
+  const handleExtensionComplete = async () => {
+    await markOnboardingComplete();
     setCurrentStep('complete');
     setTimeout(() => router.push('/dashboard'), 2000);
   };
@@ -69,6 +78,7 @@ export default function OnboardingPage() {
     } catch {
       // Non-blocking — proceed regardless
     }
+    await markOnboardingComplete();
     setCurrentStep('complete');
     setTimeout(() => router.push('/dashboard'), 2000);
   };

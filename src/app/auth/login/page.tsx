@@ -23,6 +23,7 @@ export default function LoginPage() {
   const handleOAuthSuccess = (user: any) => {
     router.push('/dashboard');
   };
+  // Note: middleware will redirect to /onboarding if onboarding_completed is false
 
   const handleOAuthError = (error: Error) => {
     setError(error.message);

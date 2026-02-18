@@ -75,8 +75,8 @@ export default async function ConfirmEmailPage({
         throw error;
       }
 
-      // Successfully confirmed email, redirect to login with success message
-      redirect('/login?message=Email confirmed successfully! You can now sign in.');
+      // Successfully confirmed email, redirect to onboarding
+      redirect('/onboarding');
     } catch (error) {
       console.error('Email confirmation error:', error);
       

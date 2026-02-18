@@ -26,6 +26,8 @@ export type Database = {
           extension_version: string | null;
           installation_skipped: boolean | null;
           installation_skipped_at: string | null;
+          onboarding_completed: boolean | null;
+          onboarding_completed_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -49,6 +51,8 @@ export type Database = {
           extension_version?: string | null;
           installation_skipped?: boolean | null;
           installation_skipped_at?: string | null;
+          onboarding_completed?: boolean | null;
+          onboarding_completed_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -72,6 +76,8 @@ export type Database = {
           extension_version?: string | null;
           installation_skipped?: boolean | null;
           installation_skipped_at?: string | null;
+          onboarding_completed?: boolean | null;
+          onboarding_completed_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
