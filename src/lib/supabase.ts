@@ -9,8 +9,10 @@ export type Database = {
         Row: {
           id: string;
           email: string;
+          username: string;
           display_name: string | null;
           avatar_url: string | null;
+          bio: string | null;
           auth_provider: string;
           status: string;
           preferences: {
@@ -24,8 +26,10 @@ export type Database = {
         Insert: {
           id: string;
           email: string;
+          username: string;
           display_name?: string | null;
           avatar_url?: string | null;
+          bio?: string | null;
           auth_provider?: string;
           status?: string;
           preferences?: {
@@ -39,8 +43,10 @@ export type Database = {
         Update: {
           id?: string;
           email?: string;
+          username?: string;
           display_name?: string | null;
           avatar_url?: string | null;
+          bio?: string | null;
           auth_provider?: string;
           status?: string;
           preferences?: {
