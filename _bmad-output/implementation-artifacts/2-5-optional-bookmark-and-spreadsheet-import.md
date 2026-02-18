@@ -1,6 +1,6 @@
 # Story 2.5: Optional Bookmark & Spreadsheet Import
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -20,36 +20,36 @@ So that I don't lose my reading progress when switching to ReadTrace.
 
 ## Tasks / Subtasks
 
-- [ ] Create import UI component (AC: 1)
-  - [ ] Design import option in onboarding flow
-  - [ ] Add file upload interface for CSV
-  - [ ] Add browser history authorization option
-  - [ ] Create import type selection (CSV vs browser history)
-- [ ] Implement CSV file parsing (AC: 1)
-  - [ ] Define expected CSV format and schema
-  - [ ] Implement CSV parser with validation
-  - [ ] Extract series title, chapter, URL from CSV
-  - [ ] Handle malformed CSV data gracefully
-- [ ] Implement browser history import (AC: 1)
-  - [ ] Request browser history permission
-  - [ ] Filter history for scanlation site URLs
-  - [ ] Extract series and chapter from URLs
-  - [ ] Support MangaDex and other platform URL formats
-- [ ] Add data validation and deduplication (AC: 1)
-  - [ ] Validate series titles against known databases (optional)
-  - [ ] Detect duplicate series entries
-  - [ ] Normalize series titles (case, spacing)
-  - [ ] Identify incomplete or invalid entries
-- [ ] Create import preview and confirmation (AC: 1)
-  - [ ] Display parsed series in preview table
-  - [ ] Allow users to edit/remove entries before import
-  - [ ] Show import summary (X series found, Y duplicates)
-  - [ ] Provide confirm and cancel actions
-- [ ] Implement data persistence (AC: 1)
-  - [ ] Save imported series to user_series table
-  - [ ] Create reading_progress records for each series
-  - [ ] Associate imports with user account
-  - [ ] Handle import errors with rollback
+- [x] Create import UI component (AC: 1)
+  - [x] Design import option in onboarding flow
+  - [x] Add file upload interface for CSV
+  - [x] Add browser history authorization option
+  - [x] Create import type selection (CSV vs browser history)
+- [x] Implement CSV file parsing (AC: 1)
+  - [x] Define expected CSV format and schema
+  - [x] Implement CSV parser with validation
+  - [x] Extract series title, chapter, URL from CSV
+  - [x] Handle malformed CSV data gracefully
+- [x] Implement browser history import (AC: 1)
+  - [x] Request browser history permission
+  - [x] Filter history for scanlation site URLs
+  - [x] Extract series and chapter from URLs
+  - [x] Support MangaDex and other platform URL formats
+- [x] Add data validation and deduplication (AC: 1)
+  - [x] Validate series titles against known databases (optional)
+  - [x] Detect duplicate series entries
+  - [x] Normalize series titles (case, spacing)
+  - [x] Identify incomplete or invalid entries
+- [x] Create import preview and confirmation (AC: 1)
+  - [x] Display parsed series in preview table
+  - [x] Allow users to edit/remove entries before import
+  - [x] Show import summary (X series found, Y duplicates)
+  - [x] Provide confirm and cancel actions
+- [x] Implement data persistence (AC: 1)
+  - [x] Save imported series to user_series table
+  - [x] Create reading_progress records for each series
+  - [x] Associate imports with user account
+  - [x] Handle import errors with rollback
 
 ## Dev Notes
 
@@ -382,16 +382,50 @@ const mangadexPattern = /mangadex\.org\/title\/[^\/]+\/([^\/]+)(?:\/chapter\/[^\
 
 ### Agent Model Used
 
-<!-- Dev agent to fill in model name and version -->
+Claude Sonnet 4.5 (Cascade / Windsurf)
 
 ### Debug Log References
 
-<!-- Dev agent to add links to debug logs if needed -->
+- Fixed PapaParse empty-string coercion bug: `||` instead of `??` for chapter/url fields so empty CSV cells become `undefined` not `""`
+- Migration numbers 007/008 used (004/005 already taken by username and RLS migrations)
+- Browser History API implemented via extension message-passing bridge (same pattern as Story 2-4 `detectExtension`), not Chrome Extension API directly
 
 ### Completion Notes List
 
-<!-- Dev agent to document implementation notes and decisions -->
+- Installed `papaparse@5.5.3` + `@types/papaparse` as new dependency
+- Zod v4 (already installed) used for validation — `z.enum()` and `z.string().optional()` API unchanged from v3 for this use case
+- DB migrations use 007/008 (not 004/005 as story spec listed — those were already taken)
+- Browser history import uses extension message-passing bridge (`READTRACE_HISTORY_REQUEST` / `READTRACE_HISTORY_RESPONSE`) consistent with Story 2-4 pattern — not Chrome Extension API directly (web app cannot call `chrome.history` directly)
+- `parseCSVText` and `parseCSVFile` both normalize empty CSV cells to `undefined` using `||` coercion
+- Deduplication keeps highest chapter number when merging duplicate series
+- Import job is built entirely client-side before confirmation; server only persists confirmed entries
+- All 69 new tests passing; 509/509 total (0 regressions)
 
 ### File List
 
-<!-- Dev agent to list all files created or modified -->
+**New Files Created (22):**
+- `src/model/schemas/import.ts` — All import TypeScript interfaces
+- `src/backend/services/import/csvValidator.ts` — Zod validation, normalizeImportEntry
+- `src/backend/services/import/deduplication.ts` — normalizeTitle, findDuplicates, deduplicateEntries
+- `src/backend/services/import/urlExtractor.ts` — detectPlatform, extractSeriesFromUrl, PLATFORM_PATTERNS
+- `src/backend/services/import/importService.ts` — parseCSVText, parseCSVFile, buildImportJob, getSelectedEntries, updateEntrySelection, removeEntry, extractFromBrowserHistory
+- `src/app/api/import/upload/route.ts` — POST /api/import/upload
+- `src/app/api/import/browser-history/route.ts` — POST /api/import/browser-history
+- `src/app/api/import/confirm/route.ts` — POST /api/import/confirm
+- `src/components/import/ImportUpload.tsx` — Drag-and-drop CSV upload with format guide
+- `src/components/import/BrowserHistoryImport.tsx` — Extension bridge history import
+- `src/components/import/ImportPreview.tsx` — Editable preview table with select/remove
+- `src/components/import/ImportSummary.tsx` — 4-stat summary card grid
+- `src/components/import/ImportConfirmation.tsx` — Confirm/cancel + result display
+- `src/hooks/useCSVParser.ts` — React hook wrapping parseCSVFile
+- `src/app/onboarding/import/page.tsx` — 5-step import wizard page
+- `database/migrations/007_create_user_series.sql` — user_series table + RLS
+- `database/migrations/008_create_reading_progress.sql` — reading_progress table + RLS
+- `tests/unit/csvValidator.test.ts` — 17 unit tests
+- `tests/unit/urlExtractor.test.ts` — 12 unit tests
+- `tests/unit/deduplication.test.ts` — 16 unit tests
+- `tests/integration/import-flow.integration.test.ts` — 24 integration tests
+- `docs/USER_FLOWS.md` — User journey documentation (created during planning)
+
+**Modified Files (1):**
+- `package.json` — Added papaparse + @types/papaparse
