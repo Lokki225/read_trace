@@ -127,6 +127,8 @@ export type Database = {
           current_chapter: number;
           total_chapters: number | null;
           cover_url: string | null;
+          genres: string[];
+          progress_percentage: number;
           last_read_at: string | null;
           created_at: string;
           updated_at: string;
@@ -143,6 +145,8 @@ export type Database = {
           current_chapter?: number;
           total_chapters?: number | null;
           cover_url?: string | null;
+          genres?: string[];
+          progress_percentage?: number;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;
@@ -159,6 +163,8 @@ export type Database = {
           current_chapter?: number;
           total_chapters?: number | null;
           cover_url?: string | null;
+          genres?: string[];
+          progress_percentage?: number;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;

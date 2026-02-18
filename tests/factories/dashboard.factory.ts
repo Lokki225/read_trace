@@ -12,6 +12,8 @@ export const makeDashboardSeries = (overrides: Partial<UserSeries> = {}): UserSe
   current_chapter: 1,
   total_chapters: null,
   cover_url: null,
+  genres: [],
+  progress_percentage: 0,
   last_read_at: '2026-02-18T00:00:00Z',
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-01-01T00:00:00Z',

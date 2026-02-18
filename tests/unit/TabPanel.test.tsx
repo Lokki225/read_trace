@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { TabPanel } from '../../src/components/dashboard/TabPanel';
 import { SeriesStatus, UserSeries } from '../../src/model/schemas/dashboard';
@@ -12,6 +13,14 @@ jest.mock('next/link', () => {
   return MockLink;
 });
 
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} {...props} />
+  ),
+}));
+
 const makeSeries = (overrides: Partial<UserSeries> = {}): UserSeries => ({
   id: 'series-1',
   user_id: 'user-123',
@@ -24,6 +33,8 @@ const makeSeries = (overrides: Partial<UserSeries> = {}): UserSeries => ({
   current_chapter: 1,
   total_chapters: null,
   cover_url: null,
+  genres: [],
+  progress_percentage: 0,
   last_read_at: null,
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-01-01T00:00:00Z',
@@ -112,7 +123,7 @@ describe('TabPanel', () => {
         status={SeriesStatus.READING}
       />
     );
-    expect(screen.getAllByTestId('series-card')).toHaveLength(3);
+    expect(screen.getAllByRole('article')).toHaveLength(3);
   });
 
   it('renders platform badge for each series', () => {

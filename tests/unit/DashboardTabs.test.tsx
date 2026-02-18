@@ -1,7 +1,16 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DashboardTabs } from '../../src/components/dashboard/DashboardTabs';
 import { DashboardData, SeriesStatus, UserSeries } from '../../src/model/schemas/dashboard';
+
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} {...props} />
+  ),
+}));
 
 jest.mock('next/link', () => {
   const MockLink = ({ children, href, 'aria-label': ariaLabel }: { children: React.ReactNode; href: string; 'aria-label'?: string }) => (
@@ -25,6 +34,8 @@ const makeSeries = (overrides: Partial<UserSeries> = {}): UserSeries => ({
   current_chapter: 1,
   total_chapters: null,
   cover_url: null,
+  genres: [],
+  progress_percentage: 0,
   last_read_at: null,
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-01-01T00:00:00Z',
