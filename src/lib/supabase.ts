@@ -20,6 +20,12 @@ export type Database = {
             theme: 'light' | 'dark' | 'system';
             default_scan_site: string | null;
           };
+          extension_installed: boolean | null;
+          extension_installed_at: string | null;
+          browser_type: string | null;
+          extension_version: string | null;
+          installation_skipped: boolean | null;
+          installation_skipped_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -37,6 +43,12 @@ export type Database = {
             theme: 'light' | 'dark' | 'system';
             default_scan_site: string | null;
           };
+          extension_installed?: boolean | null;
+          extension_installed_at?: string | null;
+          browser_type?: string | null;
+          extension_version?: string | null;
+          installation_skipped?: boolean | null;
+          installation_skipped_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -54,6 +66,12 @@ export type Database = {
             theme: 'light' | 'dark' | 'system';
             default_scan_site: string | null;
           };
+          extension_installed?: boolean | null;
+          extension_installed_at?: string | null;
+          browser_type?: string | null;
+          extension_version?: string | null;
+          installation_skipped?: boolean | null;
+          installation_skipped_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };

@@ -1256,6 +1256,114 @@ Confidence: [XX]
 Closes #[FEATURE_ID]
 ```
 
+### **Step 15: Validate Implementation (MANDATORY BEFORE GIT PUSH)**
+
+**BLOCKING RULE**: Step 13 passed ✅ is required before running this step.
+
+Run the `validate-implementation` workflow targeting the completed feature:
+
+```
+/validate-implementation [feature-name]
+```
+
+This performs a professor-level audit:
+1. Cross-checks every acceptance criterion against implemented code
+2. Verifies all tests exist, pass, and cover edge cases
+3. Detects missing, partial, or incorrect elements
+4. Auto-fixes any gaps found (corrective action, not passive review)
+5. Produces a final confidence score
+
+#### Validation Gate
+
+```
+✅ VALIDATION GATE:
+
+□ Run: /validate-implementation [feature-name]
+□ All acceptance criteria verified: YES / NO
+□ All tests passing (0 failures): YES / NO
+□ Confidence score ≥ 90: YES / NO
+□ No unfixed gaps remaining: YES / NO
+
+🎯 RESULT: [PASS / FAIL]
+```
+
+**IF VALIDATION FAILS:**
+- ❌ DO NOT proceed to Step 16 (git push)
+- ❌ Fix all gaps identified by validate-implementation
+- ❌ Re-run Step 15 until PASS
+- ❌ Only proceed when confidence ≥ 90
+
+**IF VALIDATION PASSES:**
+- ✅ Proceed to Step 16: Git Push
+
+---
+
+### **Step 16: Git Push (ONLY IF STEP 15 PASSED)**
+
+**BLOCKING RULE**: This step executes ONLY if Step 15 validation returned PASS with confidence ≥ 90.
+
+#### Pre-Push Checklist
+
+```
+✅ PRE-PUSH CHECKLIST:
+
+□ Step 13 Final Pre-Commit Verification: PASSED ✅
+□ Step 15 Validation: PASSED ✅
+□ Confidence score ≥ 90 ✅
+□ All tests passing (0 failures) ✅
+□ Feature completeness: 100% ✅
+□ Story file status = done ✅
+□ Dev Agent Record filled ✅
+□ File List complete ✅
+□ FEATURE_STATUS.json: state = "IMPLEMENTED" ✅
+□ IMPLEMENTATION_STATUS.json: updated ✅
+```
+
+#### Git Commands
+
+```bash
+# Stage all feature changes
+git add .
+
+# Commit with structured message
+git commit -m "feat([story-id]): [Feature Name] - Story [X.Y] complete
+
+Implemented:
+- [Key component 1]
+- [Key component 2]
+- [Key component 3]
+
+Tests: [N] passing (+[M] new)
+Confidence: [XX]%
+AC: [N]/[N] satisfied (100%)
+Screens: [N]/[N] (100%)
+
+Closes #[story-id]"
+
+# Push to remote
+git push
+```
+
+#### Required Output
+
+```text
+🚀 GIT PUSH RESULT
+
+Commit: [commit hash]
+Branch: [branch name]
+Files Changed: [COUNT]
+Tests: [N] passing
+Confidence: [XX]%
+Feature Completeness: 100%
+
+Status: ✅ PUSHED SUCCESSFULLY
+```
+
+**IF PUSH FAILS:**
+- Report the error with full output
+- Do NOT retry automatically
+- Escalate to user for resolution
+
 ---
 
 ## 🚫 BLOCKING CONDITIONS - NEVER PROCEED IF

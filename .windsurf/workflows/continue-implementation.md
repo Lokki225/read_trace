@@ -613,6 +613,115 @@ A continuation is considered valid **ONLY IF**:
 
 ---
 
+---
+
+## 🔍 STEP 8 — Validate Implementation (MANDATORY AFTER FEATURE COMPLETE)
+
+**Trigger**: Run this step ONLY when ALL phases are complete (feature status = IMPLEMENTED).
+
+### Validation Execution
+
+Run the `validate-implementation` workflow targeting the completed feature:
+
+```
+/validate-implementation [feature-name]
+```
+
+This workflow will:
+1. Audit all acceptance criteria against implemented code
+2. Verify all tests exist and pass
+3. Check for missing, partial, or incorrect elements
+4. Produce a confidence score
+5. Auto-fix any gaps found (corrective action, not passive review)
+
+### Validation Gate Rules
+
+```
+✅ VALIDATION GATE:
+
+□ Run: /validate-implementation [feature-name]
+□ All acceptance criteria verified: YES / NO
+□ All tests passing: YES / NO
+□ Confidence score ≥ 90: YES / NO
+□ No gaps found (or all gaps fixed): YES / NO
+
+🎯 RESULT: [PASS / FAIL]
+```
+
+**IF VALIDATION FAILS:**
+- ❌ DO NOT proceed to git push
+- ❌ Fix all gaps identified by validate-implementation
+- ❌ Re-run validation until PASS
+- ❌ Only proceed to Step 9 when confidence ≥ 90
+
+**IF VALIDATION PASSES:**
+- ✅ Proceed to Step 9: Git Push
+
+---
+
+## 🚀 STEP 9 — Git Push (ONLY IF STEP 8 PASSED)
+
+**BLOCKING RULE**: This step executes ONLY if Step 8 validation returned PASS with confidence ≥ 90.
+
+### Pre-Push Checklist
+
+```
+✅ PRE-PUSH CHECKLIST:
+
+□ Step 8 validation: PASSED ✅
+□ Confidence score ≥ 90 ✅
+□ All tests passing (0 failures) ✅
+□ No uncommitted changes to unrelated files ✅
+□ Story file status = done ✅
+□ Dev Agent Record filled ✅
+□ File List complete ✅
+```
+
+### Git Commands
+
+```bash
+# Stage all changes for the feature
+git add .
+
+# Commit with structured message
+git commit -m "feat([story-id]): [Feature Name] - Story [X.Y] complete
+
+Implemented:
+- [Key component 1]
+- [Key component 2]
+- [Key component 3]
+
+Tests: [N] passing (+[M] new)
+Confidence: [XX]%
+AC: [N]/[N] satisfied (100%)
+
+Closes #[story-id]"
+
+# Push to remote
+git push
+```
+
+### Required Output
+
+```text
+🚀 GIT PUSH RESULT
+
+Commit: [commit hash]
+Branch: [branch name]
+Files Changed: [COUNT]
+Tests: [N] passing
+Confidence: [XX]%
+
+Status: ✅ PUSHED SUCCESSFULLY
+```
+
+**IF PUSH FAILS:**
+- Report the error
+- Do NOT retry automatically
+- Escalate to user for resolution
+
+---
+
 ## Governance Compliance
 
 This workflow enforces AI Constitution governance and compliance requirements:
@@ -623,3 +732,5 @@ This workflow enforces AI Constitution governance and compliance requirements:
 * Cascade TODO creation for task tracking
 * Mandatory tracking file updates (IMPLEMENTATION_STATUS.json, FEATURE_STATUS.json)
 * One phase per run rule enforcement
+* Mandatory validation before git push (Step 8)
+* Git push only on validated, confidence ≥ 90 implementations (Step 9)
