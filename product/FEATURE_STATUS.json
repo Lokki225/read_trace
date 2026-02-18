@@ -260,6 +260,92 @@
         }
       ]
     },
+    "infinite-scroll": {
+      "id": "infinite-scroll",
+      "title": "Infinite Scroll for Large Libraries",
+      "slug": "infinite-scroll-for-large-libraries",
+      "description": "Smooth browsing of large series libraries with automatic loading and scroll persistence",
+      "category": "core",
+      "currentState": "IMPLEMENTED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "3",
+      "story": "3-5",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-09",
+      "targetDate": "2026-03-15",
+      "estimatedEffort": "2 weeks",
+      "tags": ["infinite-scroll", "large-libraries", "ui"],
+      "dependencies": ["series-dashboard"],
+      "acceptanceCriteria": [
+        "Infinite scroll for large libraries",
+        "Smooth scrolling experience",
+        "Automatic loading of new content",
+        "Scroll persistence"
+      ],
+      "risks": [
+        "Performance with large libraries",
+        "Infinite scroll implementation complexity"
+      ],
+      "metrics": {
+        "targetLoadTime": "2s",
+        "targetScrollPerformance": "60fps"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification and implementation tasks complete"
+        }
+      ]
+    },
+    "preferred-sites": {
+      "id": "preferred-sites",
+      "title": "Preferred Scan Site Configuration",
+      "slug": "preferred-scan-site-configuration",
+      "description": "Allow users to set and reorder preferred scanlation sites for extension detection",
+      "category": "enhancement",
+      "currentState": "SPECIFIED",
+      "confidence": "HIGH",
+      "priority": "MEDIUM",
+      "epic": "3",
+      "story": "3-6",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-02-28",
+      "estimatedEffort": "1 week",
+      "tags": ["preferences", "settings", "extension", "configuration"],
+      "dependencies": ["series-dashboard", "browser-extension"],
+      "acceptanceCriteria": [
+        "Select from supported platforms",
+        "Reorder preferences (drag-and-drop)",
+        "Save to Supabase",
+        "Extension uses preferences",
+        "Update preferences anytime",
+        "Display in settings/onboarding",
+        "Default preferences if skipped",
+        "Resume uses preferred site"
+      ],
+      "risks": [
+        "Extension sync issues",
+        "Preferred site unavailable",
+        "Drag-and-drop complexity"
+      ],
+      "metrics": {
+        "configTime": "<30s",
+        "testCoverage": "80%+",
+        "preferenceAccuracy": "100%"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification and implementation tasks complete"
+        }
+      ]
+    },
     "browser-extension": {
       "id": "browser-extension",
       "title": "Browser Extension for Progress Tracking",

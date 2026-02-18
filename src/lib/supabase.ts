@@ -114,6 +114,56 @@ export type Database = {
           updated_at?: string;
         };
       };
+      user_series: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          normalized_title: string;
+          platform: string;
+          source_url: string | null;
+          import_id: string | null;
+          status: 'reading' | 'completed' | 'on_hold' | 'plan_to_read';
+          current_chapter: number;
+          total_chapters: number | null;
+          cover_url: string | null;
+          last_read_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          normalized_title: string;
+          platform?: string;
+          source_url?: string | null;
+          import_id?: string | null;
+          status?: 'reading' | 'completed' | 'on_hold' | 'plan_to_read';
+          current_chapter?: number;
+          total_chapters?: number | null;
+          cover_url?: string | null;
+          last_read_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          title?: string;
+          normalized_title?: string;
+          platform?: string;
+          source_url?: string | null;
+          import_id?: string | null;
+          status?: 'reading' | 'completed' | 'on_hold' | 'plan_to_read';
+          current_chapter?: number;
+          total_chapters?: number | null;
+          cover_url?: string | null;
+          last_read_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
   };
 };

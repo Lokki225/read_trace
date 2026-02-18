@@ -51,23 +51,23 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2: User Authentication & Profiles
-  epic-2: in-progress
+  epic-2: done
   2-1-user-registration-with-email-and-password: done
   2-2-oauth-authentication-google-and-discord: done
   2-3-user-profile-management: done
   2-4-browser-extension-installation-guide: done
   2-5-optional-bookmark-and-spreadsheet-import: done
-  2-6-root-page-and-auth-aware-routing: in-progress
+  2-6-root-page-and-auth-aware-routing: done
   epic-2-retrospective: optional
 
   # Epic 3: Series Management & Dashboard
-  epic-3: backlog
-  3-1-dashboard-layout-with-tabbed-interface: backlog
-  3-2-series-card-component-with-magazine-style-layout: backlog
-  3-3-search-and-filter-functionality: backlog
-  3-4-series-progress-indicators: backlog
-  3-5-infinite-scroll-for-large-libraries: backlog
-  3-6-preferred-scan-site-configuration: backlog
+  epic-3: in-progress
+  3-1-dashboard-layout-with-tabbed-interface: ready-for-dev
+  3-2-series-card-component-with-magazine-style-layout: ready-for-dev
+  3-3-search-and-filter-functionality: ready-for-dev
+  3-4-series-progress-indicators: ready-for-dev
+  3-5-infinite-scroll-for-large-libraries: ready-for-dev
+  3-6-preferred-scan-site-configuration: ready-for-dev
   epic-3-retrospective: optional
 
   # Epic 4: Cross-Platform Reading Progress Tracking

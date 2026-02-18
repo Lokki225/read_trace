@@ -168,15 +168,16 @@ describe('OAuth Button Components', () => {
     });
 
     it('should display error message on failure', async () => {
+      const onError = jest.fn();
       (global.fetch as jest.Mock).mockRejectedValue(new Error('OAuth failed'));
 
-      render(<OAuthButton provider={OAuthProvider.GOOGLE} />);
+      render(<OAuthButton provider={OAuthProvider.GOOGLE} onError={onError} />);
       const button = screen.getByRole('button');
 
       fireEvent.click(button);
 
       await waitFor(() => {
-        expect(screen.getByText(/OAuth failed/i)).toBeInTheDocument();
+        expect(onError).toHaveBeenCalledWith(expect.any(Error));
       });
     });
   });

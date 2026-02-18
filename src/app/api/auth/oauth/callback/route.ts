@@ -57,58 +57,37 @@ export async function GET(request: NextRequest) {
     const displayName = providerData.name || providerData.preferred_username || providerData.username || user.email?.split('@')[0];
     const avatarUrl = providerData.avatar_url || providerData.picture;
 
-    // Check if user profile exists
-    const { data: existingProfile } = await supabase
+    // The DB trigger (create_profile_for_new_user) auto-creates the profile
+    // the moment auth.users is inserted, so existingProfile is always non-null.
+    // We must check onboarding_completed to distinguish new vs returning users.
+    const { data: profile } = await (supabase as any)
       .from('user_profiles')
-      .select('id')
+      .select('id, onboarding_completed')
       .eq('id', user.id)
       .single();
 
-    if (!existingProfile) {
-      // Create new user profile for OAuth user
-      const profileData: any = {
-        id: user.id,
-        email: user.email!,
-        display_name: displayName || null,
-        avatar_url: avatarUrl || null,
-        auth_provider: provider,
-        status: 'active',
-        preferences: {
-          email_notifications: true,
-          theme: 'system',
-          default_scan_site: null
-        }
-      };
-      
-      const { error: profileError } = await (supabase as any)
-        .from('user_profiles')
-        .insert([profileData]);
+    // Update OAuth-specific fields on the profile
+    const updateData: any = {
+      auth_provider: provider,
+      status: 'active',
+      display_name: displayName || null,
+      avatar_url: avatarUrl || null,
+      updated_at: new Date().toISOString()
+    };
 
-      if (profileError) {
-        console.error('Failed to create user profile:', profileError);
-      }
-    } else {
-      // Update existing profile with OAuth information
-      const updateData: any = {
-        auth_provider: provider,
-        status: 'active',
-        display_name: displayName || null,
-        avatar_url: avatarUrl || null,
-        updated_at: new Date().toISOString()
-      };
-      
-      const { error: updateError } = await (supabase as any)
-        .from('user_profiles')
-        .update(updateData)
-        .eq('id', user.id);
+    const { error: updateError } = await (supabase as any)
+      .from('user_profiles')
+      .update(updateData)
+      .eq('id', user.id);
 
-      if (updateError) {
-        console.error('Failed to update user profile:', updateError);
-      }
+    if (updateError) {
+      console.error('Failed to update user profile:', updateError);
     }
 
-    // New users go to onboarding, returning users go to dashboard
-    const destination = !existingProfile ? '/onboarding' : '/dashboard';
+    // New users (onboarding_completed = false/null) → /onboarding
+    // Returning users (onboarding_completed = true) → /dashboard
+    const onboardingCompleted = profile?.onboarding_completed ?? false;
+    const destination = onboardingCompleted ? '/dashboard' : '/onboarding';
     return NextResponse.redirect(new URL(destination, request.url));
   } catch (error) {
     console.error('OAuth callback error:', error);

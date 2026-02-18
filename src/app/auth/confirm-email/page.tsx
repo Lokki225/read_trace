@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase';
+import { createServerClient } from '@/lib/supabase';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
@@ -53,7 +53,7 @@ export default async function ConfirmEmailPage({
                 Try Again
               </a>
               <a
-                href="/login"
+                href="/auth/login"
                 className="block w-full rounded-md border border-border bg-background text-foreground px-4 py-2 text-sm font-semibold shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
               >
                 Sign In
@@ -68,7 +68,7 @@ export default async function ConfirmEmailPage({
   // Handle successful confirmation
   if (code) {
     try {
-      const supabase = createClient();
+      const supabase = await createServerClient();
       const { error } = await supabase.auth.exchangeCodeForSession(code);
 
       if (error) {
@@ -111,7 +111,7 @@ export default async function ConfirmEmailPage({
                   Register Again
                 </a>
                 <a
-                  href="/login"
+                  href="/auth/login"
                   className="block w-full rounded-md border border-border bg-background text-foreground px-4 py-2 text-sm font-semibold shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
                 >
                   Sign In
@@ -156,7 +156,7 @@ export default async function ConfirmEmailPage({
               Register Again
             </a>
             <a
-              href="/login"
+              href="/auth/login"
               className="block w-full rounded-md border border-border bg-background text-foreground px-4 py-2 text-sm font-semibold shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
             >
               Sign In

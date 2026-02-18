@@ -42,7 +42,9 @@ Where:
 [Detailed description of the technical risk]
 
 **Probability**: [1-5] - [Low | Medium | High]  
+
 **Impact**: [1-5] - [Low | Medium | High]  
+
 **Risk Score**: [Probability × Impact] - [Category]  
 
 **Affected Components**:
