@@ -339,6 +339,7 @@
     seriesTitle: null,
     chapterNumber: null,
     scrollPosition: 0,
+    platform: "unknown",
     lastUpdateTime: 0
   };
   var scrollDebounceTimer = null;
@@ -392,6 +393,7 @@
     const url = window.location.href;
     const adapter = detectAdapter(url);
     if (!adapter) {
+      state.platform = "unknown";
       return;
     }
     const title = adapter.extractSeriesTitle(document);
@@ -402,6 +404,7 @@
     if (chapter !== null) {
       state.chapterNumber = chapter;
     }
+    state.platform = adapter.name;
   }
   async function sendCurrentProgress() {
     if (!state.isActive || !state.seriesTitle || !state.chapterNumber) {
@@ -417,7 +420,8 @@
       chapterNumber: state.chapterNumber,
       scrollPosition: state.scrollPosition,
       timestamp: now,
-      url: window.location.href
+      url: window.location.href,
+      platform: state.platform
     });
   }
   function setupMutationObserver() {

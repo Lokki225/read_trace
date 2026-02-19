@@ -5,6 +5,7 @@ const BASE: Omit<UserSeries, 'id' | 'title' | 'platform' | 'status' | 'genres' |
   normalized_title: '',
   source_url: null,
   import_id: null,
+  resume_url: null,
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-02-18T00:00:00Z',
 };
