@@ -823,13 +823,201 @@
           "notes": "Feature specification, acceptance criteria, test scenarios, risks, and implementation tasks complete"
         }
       ]
+    },
+    "resume-button-on-series-cards": {
+      "id": "resume-button-on-series-cards",
+      "title": "Resume Button on Series Cards",
+      "slug": "resume-button-on-series-cards",
+      "description": "Add prominent resume button to series cards for one-click navigation to last reading position",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "HIGH",
+      "priority": "HIGH",
+      "epic": "5",
+      "story": "5-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-19",
+      "targetDate": "2026-02-25",
+      "estimatedEffort": "3.5 days",
+      "tags": ["resume", "navigation", "ux", "one-click"],
+      "dependencies": ["series-dashboard", "browser-extension-content-script"],
+      "acceptanceCriteria": [
+        "Navigate to source site within 2 seconds",
+        "Loading state displayed during navigation",
+        "Orange brand color (#FF7A45)",
+        "Mobile and desktop responsive",
+        "Fallback message when no progress",
+        "WCAG 2.1 Level AA accessible"
+      ],
+      "risks": [
+        "Invalid resume URL construction",
+        "Scanlation site URL structure changes",
+        "Performance impact on dashboard",
+        "Browser pop-up blocker interference"
+      ],
+      "metrics": {
+        "clickThroughRate": "60%+",
+        "navigationTime": "<2s",
+        "testCoverage": "90%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-19",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
+    },
+    "automatic-scroll-restoration": {
+      "id": "automatic-scroll-restoration",
+      "title": "Automatic Scroll Restoration to Last Position",
+      "slug": "automatic-scroll-restoration-to-last-position",
+      "description": "Automatically scroll to user's last reading position when resuming a series",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "HIGH",
+      "priority": "HIGH",
+      "epic": "5",
+      "story": "5-2",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-19",
+      "targetDate": "2026-02-28",
+      "estimatedEffort": "4 days",
+      "tags": ["scroll", "restoration", "ux", "reading-position"],
+      "dependencies": ["resume-button-on-series-cards", "browser-extension-content-script"],
+      "acceptanceCriteria": [
+        "Auto-scroll to last position on page load",
+        "Scroll restoration within 1 second",
+        "Page fully loaded before scrolling",
+        "Position accurate within 1-2 pixels",
+        "Fallback to chapter start if invalid",
+        "Visual feedback confirms scroll action"
+      ],
+      "risks": [
+        "Page height changes break position",
+        "Scroll timing issues",
+        "Performance impact on page load",
+        "Browser scroll behavior conflicts"
+      ],
+      "metrics": {
+        "restorationTime": "<1s",
+        "positionAccuracy": "±2px",
+        "testCoverage": "90%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-19",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
+    },
+    "unified-reading-state-across-platforms": {
+      "id": "unified-reading-state-across-platforms",
+      "title": "Unified Reading State Across Platforms",
+      "slug": "unified-reading-state-across-platforms",
+      "description": "Unify reading progress across multiple scanlation sites with intelligent platform detection and preference-based resume navigation",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "5",
+      "story": "5-3",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-19",
+      "targetDate": "2026-03-05",
+      "estimatedEffort": "3 weeks",
+      "tags": ["unified-state", "multi-platform", "progress-tracking", "resume-navigation"],
+      "dependencies": ["resume-button-on-series-cards", "platform-adapter-architecture", "supabase-realtime-subscriptions"],
+      "acceptanceCriteria": [
+        "Display most recent position across all sites",
+        "Resolve conflicts with last-write-wins strategy",
+        "Dashboard reflects unified state",
+        "Resume to most appropriate platform",
+        "Allow manual platform override"
+      ],
+      "risks": [
+        "Platform detection failure",
+        "Timestamp collision and tie-breaking",
+        "Query performance degradation",
+        "Memory leaks in state resolution",
+        "Unauthorized progress access",
+        "Platform preference injection",
+        "Adapter registry out of sync",
+        "Feature adoption low"
+      ],
+      "metrics": {
+        "unifiedStateResolution": "<200ms",
+        "platformPreferenceResolution": "<100ms",
+        "testCoverage": "90%+",
+        "conflictResolutionAccuracy": "100%"
+      },
+      "history": [
+        {
+          "date": "2026-02-19",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
+    },
+    "automatic-browser-extension-updates": {
+      "id": "automatic-browser-extension-updates",
+      "title": "Automatic Browser Extension Updates",
+      "slug": "automatic-browser-extension-updates",
+      "description": "Automatic update checking and installation for the ReadTrace browser extension with non-blocking notifications and state preservation",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "5",
+      "story": "5-4",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-19",
+      "targetDate": "2026-03-19",
+      "estimatedEffort": "3-4 weeks",
+      "tags": ["extension", "updates", "auto-update", "maintenance"],
+      "dependencies": ["browser-extension-content-script", "background-script-realtime-sync"],
+      "acceptanceCriteria": [
+        "Extension updates automatically",
+        "Users notified of updates",
+        "No user action required during update",
+        "Extension continues working during updates",
+        "Update history logged",
+        "Manual update check available"
+      ],
+      "risks": [
+        "Silent update failure",
+        "Chrome API mocking complexity",
+        "State loss during update",
+        "Update check performance impact",
+        "Update authenticity verification",
+        "Chrome API compatibility",
+        "User notification fatigue"
+      ],
+      "metrics": {
+        "updateSuccessRate": "99%+",
+        "updateCheckTime": "<5s",
+        "userNotificationDismissal": "<20%",
+        "testCoverage": "85%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-19",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
     }
   },
   "metadata": {
-    "totalFeatures": 11,
+    "totalFeatures": 15,
     "stateDistribution": {
       "PROPOSED": 2,
-      "SPECIFIED": 4,
+      "SPECIFIED": 8,
       "IMPLEMENTED": 1,
       "VERIFIED": 1,
       "SHIPPED": 1,
@@ -839,19 +1027,19 @@
       "DEPRECATED": 0
     },
     "confidenceDistribution": {
-      "HIGH": 4,
-      "MEDIUM": 6,
+      "HIGH": 6,
+      "MEDIUM": 8,
       "LOW": 1
     },
     "categoryDistribution": {
-      "core": 7,
+      "core": 11,
       "enhancement": 1,
       "new": 1,
       "infrastructure": 1,
       "bugfix": 0
     },
     "priorityDistribution": {
-      "HIGH": 8,
+      "HIGH": 12,
       "MEDIUM": 2,
       "LOW": 1
     }
