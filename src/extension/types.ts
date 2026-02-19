@@ -20,6 +20,7 @@ export interface BackgroundProgressUpdate {
   scroll_position: number;
   timestamp: number;
   url: string;
+  seriesTitle?: string;
 }
 
 export interface QueuedUpdate extends BackgroundProgressUpdate {

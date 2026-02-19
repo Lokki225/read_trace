@@ -81,11 +81,11 @@ development_status:
   epic-4-retrospective: optional
 
   # Epic 5: One-Click Resume & Navigation
-  epic-5: backlog
-  5-1-resume-button-on-series-cards: backlog
-  5-2-automatic-scroll-restoration-to-last-position: backlog
-  5-3-unified-reading-state-across-platforms: backlog
-  5-4-automatic-browser-extension-updates: backlog
+  epic-5: in-progress
+  5-1-resume-button-on-series-cards: ready-for-dev
+  5-2-automatic-scroll-restoration-to-last-position: ready-for-dev
+  5-3-unified-reading-state-across-platforms: ready-for-dev
+  5-4-automatic-browser-extension-updates: ready-for-dev
   epic-5-retrospective: optional
 
   # Epic 6: Intelligent Context & Recaps

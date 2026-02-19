@@ -1,11 +1,11 @@
 import { PlatformAdapter } from '../types';
 import { PlatformAdapterV2, SeriesInfo, ChapterInfo, ProgressInfo } from './types';
 
-const WEBTOON_URL_PATTERN = /^https:\/\/www\.webtoons\.com\/[a-z]{2}\/(.*?)\/(.*?)\/viewer/;
+const WEBTOON_URL_PATTERN = /^https:\/\/(?:www\.|m\.)?webtoons\.com\/[a-z]{2}\/.+\/viewer/;
 
 const WEBTOON_URL_PATTERNS = {
-  viewer: /^https:\/\/www\.webtoons\.com\/[a-z]{2}\/(.*?)\/(.*?)\/viewer/,
-  episode: /^https:\/\/www\.webtoons\.com\/[a-z]{2}\/(.*?)\/(.*?)\/list/,
+  viewer: /^https:\/\/(?:www\.|m\.)?webtoons\.com\/[a-z]{2}\/.+\/viewer/,
+  episode: /^https:\/\/(?:www\.|m\.)?webtoons\.com\/[a-z]{2}\/.+\/list/,
 };
 
 const EPISODE_NUMBER_PATTERNS = [
@@ -16,11 +16,14 @@ const EPISODE_NUMBER_PATTERNS = [
 ];
 
 const SERIES_TITLE_SELECTORS = [
+  '.subj_info a.subj',
+  '.subj_info .subj',
+  '.info .subj',
+  'a.subj[href*="list"]',
   'meta[property="og:title"]',
   'meta[name="title"]',
   'h1.subj',
   'h1[class*="title"]',
-  '.info .subj',
   '[class*="series-title"]',
   'h1',
 ];

@@ -13,4 +13,16 @@ declare namespace chrome {
       ): void;
     };
   }
+
+  namespace storage {
+    namespace local {
+      function get(keys: string | string[] | Record<string, unknown>): Promise<Record<string, unknown>>;
+      function set(items: Record<string, unknown>): Promise<void>;
+      function remove(keys: string | string[]): Promise<void>;
+    }
+  }
+
+  namespace tabs {
+    function create(createProperties: { url: string }): Promise<unknown>;
+  }
 }

@@ -2,6 +2,16 @@ import { createServerClient } from '@/lib/supabase';
 import { DashboardData, UserSeries } from '@/model/schemas/dashboard';
 import { groupSeriesByStatus } from './dashboardDomain';
 
+function deduplicateByNormalizedTitle(series: UserSeries[]): UserSeries[] {
+  const seen = new Map<string, UserSeries>();
+  for (const item of series) {
+    if (!seen.has(item.normalized_title)) {
+      seen.set(item.normalized_title, item);
+    }
+  }
+  return Array.from(seen.values());
+}
+
 export async function fetchUserSeriesGrouped(userId: string): Promise<DashboardData> {
   const supabase = await createServerClient();
 
@@ -18,5 +28,6 @@ export async function fetchUserSeriesGrouped(userId: string): Promise<DashboardD
     throw new Error(error.message);
   }
 
-  return groupSeriesByStatus((data as unknown as UserSeries[]) ?? []);
+  const deduplicated = deduplicateByNormalizedTitle((data as unknown as UserSeries[]) ?? []);
+  return groupSeriesByStatus(deduplicated);
 }

@@ -2,9 +2,7 @@ import { BackgroundProgressUpdate, SyncResponse } from './types';
 import { log, warn, error as logError } from './logger';
 
 const SYNC_TIMEOUT_MS = 5000;
-const API_BASE_URL = typeof process !== 'undefined' && process.env.NEXT_PUBLIC_APP_URL
-  ? process.env.NEXT_PUBLIC_APP_URL
-  : '';
+const API_BASE_URL = 'http://localhost:3000';
 
 let authToken: string | null = null;
 
@@ -26,7 +24,7 @@ function buildHeaders(): HeadersInit {
   return headers;
 }
 
-export async function syncProgress(update: BackgroundProgressUpdate): Promise<SyncResponse> {
+export async function syncProgress(update: BackgroundProgressUpdate, userId?: string): Promise<SyncResponse> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), SYNC_TIMEOUT_MS);
 
@@ -35,15 +33,23 @@ export async function syncProgress(update: BackgroundProgressUpdate): Promise<Sy
   log('api:sync:start', { series_id: update.series_id, chapter: update.chapter });
 
   try {
+    const body: Record<string, any> = {
+      series_id: update.series_id,
+      chapter: update.chapter,
+      scroll_position: update.scroll_position,
+      timestamp: update.timestamp,
+      seriesTitle: update.seriesTitle,
+    };
+    
+    if (userId) {
+      body.user_id = userId;
+    }
+
     const response = await fetch(url, {
       method: 'POST',
       headers: buildHeaders(),
-      body: JSON.stringify({
-        series_id: update.series_id,
-        chapter: update.chapter,
-        scroll_position: update.scroll_position,
-        timestamp: update.timestamp,
-      }),
+      credentials: 'include',
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
 

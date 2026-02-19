@@ -19,6 +19,8 @@ const makeMockRow = (overrides: Record<string, unknown> = {}) => ({
   current_chapter: 1,
   total_chapters: null,
   cover_url: null,
+  genres: [],
+  progress_percentage: 0,
   last_read_at: '2026-02-18T00:00:00Z',
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-01-01T00:00:00Z',
@@ -121,5 +123,20 @@ describe('fetchUserSeriesGrouped', () => {
     expect(result.completed).toHaveLength(1);
     expect(result.on_hold).toHaveLength(1);
     expect(result.plan_to_read).toHaveLength(1);
+  });
+
+  it('deduplicates series with same normalized_title', async () => {
+    const mockData = [
+      makeMockRow({ id: '1', title: 'Tower of God', normalized_title: 'tower of god', status: 'reading', progress_percentage: 68 }),
+      makeMockRow({ id: '2', title: 'Tower of God', normalized_title: 'tower of god', status: 'reading', progress_percentage: 0 }),
+      makeMockRow({ id: '3', title: 'Solo Leveling', normalized_title: 'solo leveling', status: 'reading' }),
+    ];
+    buildMockChain(mockData);
+
+    const result = await fetchUserSeriesGrouped('user-123');
+
+    expect(result.reading).toHaveLength(2);
+    expect(result.reading[0].normalized_title).toBe('tower of god');
+    expect(result.reading[0].id).toBe('1');
   });
 });

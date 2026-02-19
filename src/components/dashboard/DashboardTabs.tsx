@@ -110,8 +110,8 @@ export function DashboardTabs({ data }: DashboardTabsProps) {
     }
   };
 
-  // Get filtered series - if status filters are active, show filtered series regardless of tab
-  // Otherwise, filter by active tab status
+  // Get filtered series - if any filters are active, use store's filtered results
+  // Otherwise, use the original data for the active tab
   const allFiltered = getFilteredSeries();
   const { filters, searchQuery } = useSeriesStore();
   const hasStatusFilter = filters.statuses.length > 0;
@@ -119,9 +119,9 @@ export function DashboardTabs({ data }: DashboardTabsProps) {
   const hasSearchQuery = searchQuery.trim().length > 0;
   const hasAnyFilter = hasStatusFilter || hasPlatformFilter || hasSearchQuery;
   
-  const filteredSeries = hasStatusFilter
+  const filteredSeries = hasAnyFilter
     ? allFiltered
-    : allFiltered.filter((s) => s.status === activeTab);
+    : getSeriesForStatus(data, activeTab);
 
   // Generate results header text
   const getResultsHeader = () => {

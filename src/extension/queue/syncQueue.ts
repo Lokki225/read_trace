@@ -50,29 +50,50 @@ export function size(): number {
 export function clear(): void {
   queue = [];
   try {
-    localStorage.removeItem(QUEUE_STORAGE_KEY);
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.remove(QUEUE_STORAGE_KEY).catch(() => {
+        // ignore errors
+      });
+    } else {
+      localStorage.removeItem(QUEUE_STORAGE_KEY);
+    }
   } catch {
-    // localStorage may not be available in all contexts
+    // storage may not be available in all contexts
   }
   log('queue:clear');
 }
 
 export function save(): void {
   try {
-    localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ [QUEUE_STORAGE_KEY]: queue }).catch((err) => {
+        logError('queue:save:error', err);
+      });
+    } else {
+      localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
+    }
   } catch (err) {
     logError('queue:save:error', err);
   }
 }
 
-export function load(): void {
+export async function load(): Promise<void> {
   try {
-    const stored = localStorage.getItem(QUEUE_STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored) as QueuedUpdate[];
-      if (Array.isArray(parsed)) {
-        queue = parsed;
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      const result = await chrome.storage.local.get(QUEUE_STORAGE_KEY);
+      const stored = result[QUEUE_STORAGE_KEY];
+      if (stored && Array.isArray(stored)) {
+        queue = stored;
         log('queue:load', { count: queue.length });
+      }
+    } else {
+      const stored = localStorage.getItem(QUEUE_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as QueuedUpdate[];
+        if (Array.isArray(parsed)) {
+          queue = parsed;
+          log('queue:load', { count: queue.length });
+        }
       }
     }
   } catch (err) {
