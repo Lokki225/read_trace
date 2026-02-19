@@ -131,6 +131,7 @@ export type Database = {
           chapter_number: number | null;
           page_number: number | null;
           scroll_position: number;
+          platform: string;
           last_read_at: string | null;
           created_at: string;
           updated_at: string;
@@ -142,6 +143,7 @@ export type Database = {
           chapter_number?: number | null;
           page_number?: number | null;
           scroll_position?: number;
+          platform?: string;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;
@@ -153,6 +155,7 @@ export type Database = {
           chapter_number?: number | null;
           page_number?: number | null;
           scroll_position?: number;
+          platform?: string;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;

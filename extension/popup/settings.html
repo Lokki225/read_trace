@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReadTrace Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      min-width: 400px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .info-value {
+      font-size: 13px;
+      color: #222;
+      font-weight: 600;
+    }
+
+    button {
+      background: #FF7A45;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    button:hover {
+      background: #E66A35;
+    }
+
+    button:active {
+      background: #D65A25;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.loading {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .update-history {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      font-size: 12px;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-time {
+      color: #999;
+      font-size: 11px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #FF7A45;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 6px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ReadTrace Settings</h1>
+
+    <!-- Version Information -->
+    <div class="section">
+      <div class="section-title">Version Information</div>
+      <div class="info-row">
+        <span class="info-label">Current Version</span>
+        <span class="info-value" id="currentVersion">-</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Last Check</span>
+        <span class="info-value" id="lastCheck">Never</span>
+      </div>
+    </div>
+
+    <!-- Update Check -->
+    <div class="section">
+      <div class="section-title">Check for Updates</div>
+      <button id="checkUpdatesBtn">Check for Updates</button>
+      <div id="checkStatus"></div>
+    </div>
+
+    <!-- Update History -->
+    <div class="section">
+      <div class="section-title">Update History</div>
+      <div class="update-history" id="updateHistory">
+        <div class="history-item">No update history</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

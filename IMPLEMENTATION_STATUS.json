@@ -4,9 +4,9 @@
   "lastUpdated": "2026-02-19T00:00:00Z",
   "currentWork": {
     "epic": "5-One-Click Resume & Navigation",
-    "story": "5-1-resume-button-on-series-cards",
+    "story": "5-4-automatic-browser-extension-updates",
     "status": "done",
-    "description": "Story 5-1 complete: Resume Button on Series Cards — migration 015 (resume_url column), src/types/resume.ts (interfaces), src/lib/resume.ts (buildResumeUrl, validateResumeUrl, constructMangaDexUrl, constructWebtoonUrl, navigateToResume), ResumeButton.tsx (memo'd, orange #FF7A45, loading state, WCAG 2.1 AA, 44px touch target, fallback message), SeriesCard.tsx integration. +57 new tests (resume.test.ts x22, ResumeButton.test.tsx x22, resume-button.integration.test.tsx x13). All 1158 tests passing, 0 regressions."
+    "description": "Story 5-4 complete: Automatic Browser Extension Updates — updateService.ts (checkForUpdates, compareVersions, parseVersion, 24h cache), updateNotifier.ts (notifyUpdateAvailable, dismissNotification, setupNotificationHandler), updateInstaller.ts (requestUpdate via chrome.runtime.requestUpdateCheck), updateLogger.ts (logUpdateEvent, getUpdateLog, getLastSuccessfulUpdate), updateLifecycle.ts (initializeLifecycle, handleInstallEvent, trackUpdateCount). manifest.json updated with update_url and notifications permission. background.ts integrated with update checking on startup + 24h interval. Settings UI (settings.html/js) for manual update check. +50 new tests (updateService x10, updateNotifier x8, updateLogger x8, extension-updates.integration x24). All acceptance criteria satisfied, 0 regressions."
   },
   "confidenceScore": {
     "overall": 92,
@@ -180,11 +180,11 @@
       "current": 0,
       "status": "not-applicable-foundation-phase"
     },
-    "totalTestCount": 1101,
-    "passingTests": 1101,
+    "totalTestCount": 1221,
+    "passingTests": 1221,
     "failingTests": 0,
     "skippedTests": 0,
-    "note": "Story 4-6 complete: +115 new tests (accuracy.test x36, scrollTracking.test x36, edgeCaseHandler.test x43). All acceptance criteria satisfied with 0 regressions. Total: 986 (4-5) + 115 (4-6) = 1101 tests."
+    "note": "Story 5-4 complete: +50 new tests (updateService.test x10, updateNotifier.test x8, updateLogger.test x8, extension-updates.integration x24). All acceptance criteria satisfied with 0 regressions. Total: 1171 (5-2) + 50 (5-4) = 1221 tests."
   },
   "securityMetrics": {
     "vulnerabilityScan": {

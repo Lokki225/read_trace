@@ -9,6 +9,7 @@ let state: ContentScriptState = {
   seriesTitle: null,
   chapterNumber: null,
   scrollPosition: 0,
+  platform: 'unknown',
   lastUpdateTime: 0,
 };
 
@@ -79,6 +80,7 @@ export function detectPageInfo(): void {
   const adapter = detectAdapter(url);
 
   if (!adapter) {
+    state.platform = 'unknown';
     return;
   }
 
@@ -91,6 +93,8 @@ export function detectPageInfo(): void {
   if (chapter !== null) {
     state.chapterNumber = chapter;
   }
+  
+  state.platform = adapter.name;
 }
 
 async function sendCurrentProgress(): Promise<void> {
@@ -111,6 +115,7 @@ async function sendCurrentProgress(): Promise<void> {
     scrollPosition: state.scrollPosition,
     timestamp: now,
     url: window.location.href,
+    platform: state.platform,
   });
 }
 

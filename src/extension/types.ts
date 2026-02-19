@@ -6,6 +6,7 @@ export interface ProgressUpdate {
     scrollPosition: number;
     timestamp: number;
     url: string;
+    platform: string;
   };
 }
 
@@ -20,6 +21,7 @@ export interface BackgroundProgressUpdate {
   scroll_position: number;
   timestamp: number;
   url: string;
+  platform: string;
   seriesTitle?: string;
 }
 
@@ -59,5 +61,6 @@ export interface ContentScriptState {
   seriesTitle: string | null;
   chapterNumber: number | null;
   scrollPosition: number;
+  platform: string;
   lastUpdateTime: number;
 }

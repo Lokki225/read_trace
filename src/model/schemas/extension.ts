@@ -4,6 +4,7 @@ export interface ProgressData {
   scrollPosition: number;
   timestamp: number;
   url: string;
+  platform: string;
 }
 
 export interface SyncMessage {

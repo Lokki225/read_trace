@@ -4,10 +4,17 @@ import * as queue from './queue/syncQueue';
 import * as dedup from './queue/deduplicator';
 import { log, warn, error as logError, debug } from './logger';
 import { getCurrentUserId } from './supabase';
+import * as updateService from './updates/updateService';
+import * as updateNotifier from './updates/updateNotifier';
+import * as updateInstaller from './updates/updateInstaller';
+import * as updateLogger from './updates/updateLogger';
+import * as updateLifecycle from './updates/updateLifecycle';
 
 let isOnline = typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
 let isInitialized = false;
 let cachedUserId: string | null = null;
+let lastUpdateCheckTime = 0;
+const UPDATE_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 
 let currentReadingState: {
   seriesTitle: string | null;
@@ -52,18 +59,20 @@ function normalizeUpdate(raw: Record<string, unknown>): BackgroundProgressUpdate
   const scrollPosition = (raw.scroll_position ?? raw.scrollPosition) as number | undefined;
   const timestamp = raw.timestamp as number | undefined;
   const url = raw.url as string | undefined;
+  const platform = (raw.platform ?? 'unknown') as string | undefined;
 
   if (
     typeof seriesId !== 'string' || seriesId.length === 0 ||
     typeof chapter !== 'number' || chapter <= 0 ||
     typeof scrollPosition !== 'number' || scrollPosition < 0 ||
     typeof timestamp !== 'number' || timestamp <= 0 ||
-    typeof url !== 'string'
+    typeof url !== 'string' ||
+    typeof platform !== 'string'
   ) {
     return null;
   }
 
-  return { series_id: seriesId, chapter, scroll_position: scrollPosition, timestamp, url, seriesTitle };
+  return { series_id: seriesId, chapter, scroll_position: scrollPosition, timestamp, url, platform, seriesTitle };
 }
 
 function validateUpdate(update: unknown): update is BackgroundProgressUpdate {
@@ -222,6 +231,24 @@ function handleMessage(
     return true;
   }
 
+  if (msg.type === 'CHECK_FOR_UPDATES') {
+    checkForUpdates()
+      .then(async () => {
+        const result = await updateService.checkForUpdates();
+        sendResponse({
+          success: true,
+          isUpdateAvailable: result.isUpdateAvailable,
+          currentVersion: result.currentVersion,
+          latestVersion: result.latestVersion
+        });
+      })
+      .catch((err) => {
+        logError('background:check-updates-error', err);
+        sendResponse({ success: false, error: 'Update check failed' });
+      });
+    return true;
+  }
+
   sendResponse({ success: false, queued: false, error: 'Unknown message type' });
   return false;
 }
@@ -240,10 +267,68 @@ if (
   chrome.runtime.onMessage.addListener(handleMessage);
 }
 
+async function checkForUpdates(): Promise<void> {
+  try {
+    const now = Date.now();
+    if (now - lastUpdateCheckTime < UPDATE_CHECK_INTERVAL) {
+      return; // Skip if checked recently
+    }
+
+    lastUpdateCheckTime = now;
+    const result = await updateService.checkForUpdates();
+
+    if (result.isUpdateAvailable) {
+      log('background:update-available', { version: result.latestVersion });
+      await updateLogger.logUpdateAvailable(result.latestVersion);
+      
+      // Notify user of update
+      await updateNotifier.notifyUpdateAvailable({
+        version: result.latestVersion,
+        features: ['Bug fixes and improvements'],
+        bugFixes: []
+      });
+
+      // Setup notification handlers
+      updateNotifier.setupNotificationHandler(
+        async () => {
+          // User clicked "Install Now"
+          const installResult = await updateInstaller.requestUpdate();
+          if (installResult.success) {
+            log('background:update-requested', { status: installResult.status });
+          }
+        },
+        async () => {
+          // User clicked "Dismiss"
+          await updateNotifier.dismissNotification(result.latestVersion);
+          await updateLogger.logNotificationDismissed(result.latestVersion);
+        }
+      );
+
+      updateNotifier.setupNotificationClosedHandler(async () => {
+        await updateNotifier.clearNotification();
+      });
+    }
+  } catch (err) {
+    logError('background:update-check-error', err);
+  }
+}
+
 export async function initialize(): Promise<void> {
   if (isInitialized) return;
 
   await queue.load();
+  await updateLifecycle.initializeLifecycle();
+  updateLifecycle.setupInstallListener();
+
+  // Check for updates on startup
+  await checkForUpdates();
+
+  // Schedule periodic update checks
+  if (typeof setInterval !== 'undefined') {
+    setInterval(() => {
+      checkForUpdates().catch((err) => logError('background:periodic-update-check-error', err));
+    }, UPDATE_CHECK_INTERVAL);
+  }
 
   isInitialized = true;
   log('background:initialized', { isOnline });

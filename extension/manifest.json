@@ -3,10 +3,12 @@
   "name": "ReadTrace",
   "version": "1.0.0",
   "description": "Automatically track your manga reading progress across supported scanlation sites.",
+  "update_url": "https://api.readtrace.local/extension/updates.xml",
   "permissions": [
     "storage",
     "scripting",
-    "activeTab"
+    "activeTab",
+    "notifications"
   ],
   "host_permissions": [
     "https://mangadex.org/*",
