@@ -123,6 +123,41 @@ export type Database = {
           updated_at?: string;
         };
       };
+      reading_progress: {
+        Row: {
+          id: string;
+          user_id: string;
+          series_id: string;
+          chapter_number: number | null;
+          page_number: number | null;
+          scroll_position: number;
+          last_read_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          series_id: string;
+          chapter_number?: number | null;
+          page_number?: number | null;
+          scroll_position?: number;
+          last_read_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          series_id?: string;
+          chapter_number?: number | null;
+          page_number?: number | null;
+          scroll_position?: number;
+          last_read_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
       user_series: {
         Row: {
           id: string;
@@ -138,6 +173,7 @@ export type Database = {
           cover_url: string | null;
           genres: string[];
           progress_percentage: number;
+          resume_url: string | null;
           last_read_at: string | null;
           created_at: string;
           updated_at: string;
@@ -156,6 +192,7 @@ export type Database = {
           cover_url?: string | null;
           genres?: string[];
           progress_percentage?: number;
+          resume_url?: string | null;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;
@@ -174,6 +211,7 @@ export type Database = {
           cover_url?: string | null;
           genres?: string[];
           progress_percentage?: number;
+          resume_url?: string | null;
           last_read_at?: string | null;
           created_at?: string;
           updated_at?: string;

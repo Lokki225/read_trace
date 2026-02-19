@@ -3,10 +3,10 @@
   "platformType": "web",
   "lastUpdated": "2026-02-19T00:00:00Z",
   "currentWork": {
-    "epic": "4-Browser Extension & Cross-Platform Tracking",
-    "story": "4-6-cross-platform-accuracy",
+    "epic": "5-One-Click Resume & Navigation",
+    "story": "5-1-resume-button-on-series-cards",
     "status": "done",
-    "description": "Story 4-6 complete: 95% Accuracy Cross-Platform State Synchronization — accuracy.test.ts (36 tests, >=95% threshold validation), scrollTracking.test.ts (36 tests, scroll position accuracy), edgeCaseHandler.test.ts (43 tests, multi-chapter/horizontal/dynamic/missing metadata/special chars), accuracyLogger.ts (metrics collection), migration 014 (accuracy_metrics table). +115 new tests. All 1101 tests passing, 0 regressions."
+    "description": "Story 5-1 complete: Resume Button on Series Cards — migration 015 (resume_url column), src/types/resume.ts (interfaces), src/lib/resume.ts (buildResumeUrl, validateResumeUrl, constructMangaDexUrl, constructWebtoonUrl, navigateToResume), ResumeButton.tsx (memo'd, orange #FF7A45, loading state, WCAG 2.1 AA, 44px touch target, fallback message), SeriesCard.tsx integration. +57 new tests (resume.test.ts x22, ResumeButton.test.tsx x22, resume-button.integration.test.tsx x13). All 1158 tests passing, 0 regressions."
   },
   "confidenceScore": {
     "overall": 92,

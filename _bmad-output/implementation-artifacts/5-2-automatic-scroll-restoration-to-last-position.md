@@ -1,6 +1,6 @@
 # Story 5.2: Automatic Scroll Restoration to Last Position
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

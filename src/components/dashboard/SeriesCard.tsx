@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { UserSeries } from '@/model/schemas/dashboard';
 import { StatusBadge } from './StatusBadge';
 import { ProgressIndicator } from './ProgressIndicator';
+import { ResumeButton } from './ResumeButton';
 
 interface SeriesCardProps {
   series: UserSeries;
@@ -112,6 +113,13 @@ function SeriesCardInner({ series, index = 0, onClick }: SeriesCardProps) {
             last_read_at={series.last_read_at}
           />
         </div>
+
+        {/* Resume button */}
+        <ResumeButton
+          seriesId={series.id}
+          seriesTitle={series.title}
+          resumeUrl={series.resume_url}
+        />
       </div>
     </article>
   );

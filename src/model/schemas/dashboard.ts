@@ -19,6 +19,7 @@ export interface UserSeries {
   cover_url: string | null;
   genres: string[];
   progress_percentage: number;
+  resume_url: string | null;
   last_read_at: string | null;
   created_at: string;
   updated_at: string;

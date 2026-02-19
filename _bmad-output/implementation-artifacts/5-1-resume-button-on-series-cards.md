@@ -1,6 +1,6 @@
 # Story 5.1: Resume Button on Series Cards
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -36,39 +36,39 @@ So that I can instantly return to my reading position.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Add resume_url field to UserSeries schema (AC: #1, #2)
-  - [ ] Subtask 1.1: Update src/model/schemas/dashboard.ts with resume_url: string | null
-  - [ ] Subtask 1.2: Update database/migrations to add resume_url column to user_series
-  - [ ] Subtask 1.3: Update seriesQueryService to SELECT resume_url from database
+- [x] Task 1: Add resume_url field to UserSeries schema (AC: #1, #2)
+  - [x] Subtask 1.1: Update src/model/schemas/dashboard.ts with resume_url: string | null
+  - [x] Subtask 1.2: Update database/migrations to add resume_url column to user_series
+  - [x] Subtask 1.3: Update seriesQueryService to SELECT resume_url from database
 
-- [ ] Task 2: Create ResumeButton component (AC: #3, #4, #5)
-  - [ ] Subtask 2.1: Create src/components/dashboard/ResumeButton.tsx with loading state
-  - [ ] Subtask 2.2: Style button with orange (#FF7A45) background and hover effects
-  - [ ] Subtask 2.3: Add accessibility attributes (aria-label, role, keyboard support)
-  - [ ] Subtask 2.4: Implement responsive design for mobile/desktop
+- [x] Task 2: Create ResumeButton component (AC: #3, #4, #5)
+  - [x] Subtask 2.1: Create src/components/dashboard/ResumeButton.tsx with loading state
+  - [x] Subtask 2.2: Style button with orange (#FF7A45) background and hover effects
+  - [x] Subtask 2.3: Add accessibility attributes (aria-label, role, keyboard support)
+  - [x] Subtask 2.4: Implement responsive design for mobile/desktop
 
-- [ ] Task 3: Integrate ResumeButton into SeriesCard (AC: #1, #5, #6)
-  - [ ] Subtask 3.1: Update src/components/dashboard/SeriesCard.tsx to include ResumeButton
-  - [ ] Subtask 3.2: Show ResumeButton only when resume_url exists
-  - [ ] Subtask 3.3: Show helpful message when resume_url is null/undefined
-  - [ ] Subtask 3.4: Pass series data to ResumeButton for navigation
+- [x] Task 3: Integrate ResumeButton into SeriesCard (AC: #1, #5, #6)
+  - [x] Subtask 3.1: Update src/components/dashboard/SeriesCard.tsx to include ResumeButton
+  - [x] Subtask 3.2: Show ResumeButton only when resume_url exists
+  - [x] Subtask 3.3: Show helpful message when resume_url is null/undefined
+  - [x] Subtask 3.4: Pass series data to ResumeButton for navigation
 
-- [ ] Task 4: Implement resume navigation logic (AC: #1, #2)
-  - [ ] Subtask 4.1: Create src/lib/resume.ts with buildResumeUrl() function
-  - [ ] Subtask 4.2: Determine target scanlation site from series data
-  - [ ] Subtask 4.3: Construct URL with chapter/page parameters
-  - [ ] Subtask 4.4: Handle edge cases (missing data, invalid URLs)
+- [x] Task 4: Implement resume navigation logic (AC: #1, #2)
+  - [x] Subtask 4.1: Create src/lib/resume.ts with buildResumeUrl() function
+  - [x] Subtask 4.2: Determine target scanlation site from series data
+  - [x] Subtask 4.3: Construct URL with chapter/page parameters
+  - [x] Subtask 4.4: Handle edge cases (missing data, invalid URLs)
 
-- [ ] Task 5: Add tests for ResumeButton (AC: all)
-  - [ ] Subtask 5.1: Create tests/unit/ResumeButton.test.tsx with 12+ tests
-  - [ ] Subtask 5.2: Test loading state, click handling, accessibility
-  - [ ] Subtask 5.3: Test responsive behavior on mobile/desktop
-  - [ ] Subtask 5.4: Test conditional rendering (with/without resume_url)
+- [x] Task 5: Add tests for ResumeButton (AC: all)
+  - [x] Subtask 5.1: Create tests/unit/ResumeButton.test.tsx with 12+ tests
+  - [x] Subtask 5.2: Test loading state, click handling, accessibility
+  - [x] Subtask 5.3: Test responsive behavior on mobile/desktop
+  - [x] Subtask 5.4: Test conditional rendering (with/without resume_url)
 
-- [ ] Task 6: Add integration tests (AC: all)
-  - [ ] Subtask 6.1: Create tests/integration/resume-button.integration.test.tsx
-  - [ ] Subtask 6.2: Test SeriesCard + ResumeButton integration
-  - [ ] Subtask 6.3: Test navigation flow end-to-end
+- [x] Task 6: Add integration tests (AC: all)
+  - [x] Subtask 6.1: Create tests/integration/resume-button.integration.test.tsx
+  - [x] Subtask 6.2: Test SeriesCard + ResumeButton integration
+  - [x] Subtask 6.3: Test navigation flow end-to-end
 
 ## Dev Notes
 
@@ -178,26 +178,40 @@ Claude 3.5 Sonnet
 
 ### Completion Notes List
 
-- [ ] Database migration created and tested
-- [ ] ResumeButton component created with full accessibility
-- [ ] SeriesCard integration complete
-- [ ] Navigation logic implemented in lib/resume.ts
-- [ ] All unit tests passing (12+ tests)
-- [ ] All integration tests passing (8+ tests)
-- [ ] Code review checklist completed
-- [ ] Confidence score ≥90% achieved
+- [x] Database migration created and tested (015_add_resume_url_to_user_series.sql)
+- [x] ResumeButton component created with full accessibility (aria-label, aria-busy, keyboard nav, focus ring, min-h-[44px])
+- [x] SeriesCard integration complete (ResumeButton rendered below ProgressIndicator)
+- [x] Navigation logic implemented in lib/resume.ts (buildResumeUrl, validateResumeUrl, constructMangaDexUrl, constructWebtoonUrl, navigateToResume)
+- [x] TypeScript types created in src/types/resume.ts (ResumeButtonProps, ResumeUrlData, ResumeNavigationResult)
+- [x] All unit tests passing: resume.test.ts (22 tests) + ResumeButton.test.tsx (22 tests) = 44 unit tests
+- [x] All integration tests passing: resume-button.integration.test.tsx (13 tests)
+- [x] Total new tests: 57 (22 resume + 22 ResumeButton + 13 integration)
+- [x] 0 regressions in existing 73 dashboard-related tests
+- [x] Confidence score ≥90% achieved (92%)
 
 ### File List
 
-- [ ] database/migrations/012_add_resume_url_to_user_series.sql
-- [ ] src/components/dashboard/ResumeButton.tsx
-- [ ] src/lib/resume.ts
-- [ ] src/model/schemas/dashboard.ts (modified)
-- [ ] src/backend/services/dashboard/seriesQueryService.ts (modified)
-- [ ] src/components/dashboard/SeriesCard.tsx (modified)
-- [ ] tests/unit/ResumeButton.test.tsx
-- [ ] tests/integration/resume-button.integration.test.tsx
+- [x] database/migrations/015_add_resume_url_to_user_series.sql (new)
+- [x] src/types/resume.ts (new)
+- [x] src/lib/resume.ts (new)
+- [x] src/components/dashboard/ResumeButton.tsx (new)
+- [x] src/model/schemas/dashboard.ts (modified - added resume_url: string | null)
+- [x] src/lib/supabase.ts (modified - added resume_url to Row/Insert/Update)
+- [x] src/backend/services/dashboard/seriesQueryService.ts (modified - added resume_url to SELECT)
+- [x] src/components/dashboard/SeriesCard.tsx (modified - integrated ResumeButton)
+- [x] tests/factories/dashboard.factory.ts (modified - added resume_url: null default)
+- [x] tests/unit/resume.test.ts (new - 22 tests)
+- [x] tests/unit/ResumeButton.test.tsx (new - 22 tests)
+- [x] tests/integration/resume-button.integration.test.tsx (new - 13 tests)
 
 ### Change Log
 
 - Initial story creation with comprehensive context
+- 2026-02-19: Story 5-1 implemented (DONE)
+  - Migration 015 adds resume_url VARCHAR(2048) NULL to user_series
+  - src/types/resume.ts: ResumeButtonProps, ResumeUrlData, ResumeNavigationResult interfaces
+  - src/lib/resume.ts: buildResumeUrl, validateResumeUrl, constructMangaDexUrl, constructWebtoonUrl, navigateToResume
+  - src/components/dashboard/ResumeButton.tsx: memo'd component, loading state, orange #FF7A45, WCAG 2.1 AA, keyboard nav, 44px touch target, fallback message
+  - SeriesCard.tsx: ResumeButton integrated below ProgressIndicator
+  - 57 new tests (22 unit resume + 22 unit ResumeButton + 13 integration), 0 regressions
+  - All 6 acceptance criteria satisfied
