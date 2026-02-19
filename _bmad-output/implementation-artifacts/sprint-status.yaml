@@ -61,13 +61,13 @@ development_status:
   epic-2-retrospective: optional
 
   # Epic 3: Series Management & Dashboard
-  epic-3: in-progress
-  3-1-dashboard-layout-with-tabbed-interface: ready-for-dev
-  3-2-series-card-component-with-magazine-style-layout: ready-for-dev
-  3-3-search-and-filter-functionality: ready-for-dev
-  3-4-series-progress-indicators: ready-for-dev
-  3-5-infinite-scroll-for-large-libraries: ready-for-dev
-  3-6-preferred-scan-site-configuration: ready-for-dev
+  epic-3: done
+  3-1-dashboard-layout-with-tabbed-interface: done
+  3-2-series-card-component-with-magazine-style-layout: done
+  3-3-search-and-filter-functionality: done
+  3-4-series-progress-indicators: done
+  3-5-infinite-scroll-for-large-libraries: done
+  3-6-preferred-scan-site-configuration: done
   epic-3-retrospective: optional
 
   # Epic 4: Cross-Platform Reading Progress Tracking

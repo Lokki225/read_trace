@@ -36,35 +36,35 @@ So that reading state is saved across devices.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create background service worker (AC: #1, #2)
-  - [ ] Create src/extension/background.ts
-  - [ ] Implement message listener for content script updates
-  - [ ] Create API client for backend communication
-  - [ ] Implement 5-second sync timeout
+- [x] Task 1: Create background service worker (AC: #1, #2)
+  - [x] Create src/extension/background.ts
+  - [x] Implement message listener for content script updates
+  - [x] Create API client for backend communication
+  - [x] Implement 5-second sync timeout
 
-- [ ] Task 2: Implement offline queue system (AC: #3, #4)
-  - [ ] Create src/extension/queue/syncQueue.ts
-  - [ ] Implement localStorage-based queue persistence
-  - [ ] Create queue processing logic
-  - [ ] Implement connection detection and retry logic
+- [x] Task 2: Implement offline queue system (AC: #3, #4)
+  - [x] Create src/extension/queue/syncQueue.ts
+  - [x] Implement localStorage-based queue persistence
+  - [x] Create queue processing logic
+  - [x] Implement connection detection and retry logic
 
-- [ ] Task 3: Add deduplication logic (AC: #5)
-  - [ ] Create src/extension/queue/deduplicator.ts
-  - [ ] Implement duplicate detection based on series+chapter+timestamp
-  - [ ] Create deduplication strategy (keep latest, discard old)
-  - [ ] Test with rapid fire updates
+- [x] Task 3: Add deduplication logic (AC: #5)
+  - [x] Create src/extension/queue/deduplicator.ts
+  - [x] Implement duplicate detection based on series+chapter+timestamp
+  - [x] Create deduplication strategy (keep latest, discard old)
+  - [x] Test with rapid fire updates
 
-- [ ] Task 4: Implement logging and debugging (AC: #6)
-  - [ ] Create src/extension/logger.ts
-  - [ ] Log all sync events with timestamps
-  - [ ] Implement debug mode for verbose logging
-  - [ ] Create log retrieval API for debugging
+- [x] Task 4: Implement logging and debugging (AC: #6)
+  - [x] Create src/extension/logger.ts
+  - [x] Log all sync events with timestamps
+  - [x] Implement debug mode for verbose logging
+  - [x] Create log retrieval API for debugging
 
-- [ ] Task 5: Add comprehensive testing (AC: #1-6)
-  - [ ] Create tests/unit/extension/background.test.ts
-  - [ ] Create tests/unit/extension/queue/syncQueue.test.ts
-  - [ ] Create tests/unit/extension/queue/deduplicator.test.ts
-  - [ ] Test offline scenarios and reconnection
+- [x] Task 5: Add comprehensive testing (AC: #1-6)
+  - [x] Create tests/unit/extension/background.test.ts
+  - [x] Create tests/unit/extension/queue/syncQueue.test.ts
+  - [x] Create tests/unit/extension/queue/deduplicator.test.ts
+  - [x] Test offline scenarios and reconnection
 
 ## Dev Notes
 
@@ -116,23 +116,43 @@ So that reading state is saved across devices.
 
 ### Agent Model Used
 
-Claude 3.5 Sonnet
+Claude Sonnet 4.5
 
 ### Debug Log References
 
+- processQueue() early-return bug: was returning before removeExhausted() when queue empty — fixed by restructuring to always call removeExhausted()
+- syncQueue load() test: clear() wipes localStorage so load() found nothing — fixed by using jest.resetModules() and fresh require
+- background.test.ts mock isolation: nested jest.resetModules() in beforeEach broke shared mock references — fixed by using single top-level jest.mock() + direct imports
+
 ### Completion Notes List
+
+- AC-1 ✅: background.ts registers chrome.runtime.onMessage listener, validates payload before processing
+- AC-2 ✅: api.ts uses AbortController with 5000ms timeout; syncProgress() returns within 5s or queues for retry
+- AC-3 ✅: syncQueue.ts persists to localStorage key 'readtrace_sync_queue'; add() auto-saves; overflow capped at 100 items
+- AC-4 ✅: onOnline() triggers processQueue() which syncs all queued items; failed items retry with incrementRetry()
+- AC-5 ✅: deduplicator.ts uses Map keyed by series_id::chapter; isDuplicate() returns true for same-or-older timestamps; only latest kept
+- AC-6 ✅: logger.ts logs all sync events with timestamps, level, event name, details; debug mode toggle; getLogs() for retrieval
+- POST /api/progress/sync route created with auth guard, input validation, Supabase upsert to reading_progress table
+- chrome.d.ts extended with onMessage.addListener declaration
+- src/extension/types.ts extended with BackgroundProgressUpdate, QueuedUpdate, SyncResponse, BackgroundMessage, BackgroundMessageResponse
 
 ### File List
 
-- [ ] src/extension/background.ts
-- [ ] src/extension/queue/syncQueue.ts
-- [ ] src/extension/queue/deduplicator.ts
-- [ ] src/extension/logger.ts
-- [ ] src/extension/api.ts
-- [ ] tests/unit/extension/background.test.ts
-- [ ] tests/unit/extension/queue/syncQueue.test.ts
-- [ ] tests/unit/extension/queue/deduplicator.test.ts
+- [x] src/extension/background.ts (NEW)
+- [x] src/extension/queue/syncQueue.ts (NEW)
+- [x] src/extension/queue/deduplicator.ts (NEW)
+- [x] src/extension/logger.ts (NEW)
+- [x] src/extension/api.ts (NEW)
+- [x] src/extension/types.ts (MODIFIED — added 5 new interfaces)
+- [x] src/extension/chrome.d.ts (MODIFIED — added onMessage declaration)
+- [x] src/app/api/progress/sync/route.ts (NEW)
+- [x] tests/unit/extension/background.test.ts (NEW — 14 tests)
+- [x] tests/unit/extension/logger.test.ts (NEW — 14 tests)
+- [x] tests/unit/extension/queue/syncQueue.test.ts (NEW — 22 tests)
+- [x] tests/unit/extension/queue/deduplicator.test.ts (NEW — 19 tests)
+- [x] tests/integration/background-offline.integration.test.ts (NEW — 9 tests)
+- [x] tests/integration/background-api.integration.test.ts (NEW — 8 tests)
 
 ### Change Log
 
-[To be updated during implementation]
+- 2026-02-18: Story 4-2 implemented. 6 new source files, 2 modified, 6 new test files. +87 tests (873→960). 0 regressions. All 6 AC satisfied.

@@ -36,34 +36,34 @@ So that ReadTrace can automatically detect when users are reading.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create extension directory structure and manifest.json (AC: #1)
-  - [ ] Create extension/ directory with manifest.json (Manifest V3)
-  - [ ] Define content script entry points for supported sites
-  - [ ] Configure permissions for DOM access and messaging
+- [x] Task 1: Create extension directory structure and manifest.json (AC: #1)
+  - [x] Create extension/ directory with manifest.json (Manifest V3)
+  - [x] Define content script entry points for supported sites
+  - [x] Configure permissions for DOM access and messaging
 
-- [ ] Task 2: Implement DOM selectors for MangaDex (AC: #2, #3)
-  - [ ] Create src/extension/adapters/mangadex.ts with DOM selectors
-  - [ ] Extract series title from page metadata
-  - [ ] Extract chapter number from page structure
-  - [ ] Test selectors against live MangaDex pages
+- [x] Task 2: Implement DOM selectors for MangaDex (AC: #2, #3)
+  - [x] Create src/extension/adapters/mangadex.ts with DOM selectors
+  - [x] Extract series title from page metadata
+  - [x] Extract chapter number from page structure
+  - [x] Test selectors against live MangaDex pages
 
-- [ ] Task 3: Create content script core (AC: #1, #4, #5)
-  - [ ] Create src/extension/content.ts
-  - [ ] Implement DOM observer for scroll position tracking
-  - [ ] Implement progress detection logic
-  - [ ] Create message passing interface to background script
+- [x] Task 3: Create content script core (AC: #1, #4, #5)
+  - [x] Create src/extension/content.ts
+  - [x] Implement DOM observer for scroll position tracking
+  - [x] Implement progress detection logic
+  - [x] Create message passing interface to background script
 
-- [ ] Task 4: Implement platform adapter system (AC: #6)
-  - [ ] Create src/extension/adapters/index.ts with adapter registry
-  - [ ] Define PlatformAdapter interface
-  - [ ] Implement adapter detection based on URL
-  - [ ] Create extensible pattern for adding new sites
+- [x] Task 4: Implement platform adapter system (AC: #6)
+  - [x] Create src/extension/adapters/index.ts with adapter registry
+  - [x] Define PlatformAdapter interface
+  - [x] Implement adapter detection based on URL
+  - [x] Create extensible pattern for adding new sites
 
-- [ ] Task 5: Add comprehensive testing (AC: #1-6)
-  - [ ] Create tests/unit/extension/content.test.ts
-  - [ ] Create tests/unit/extension/adapters/mangadex.test.ts
-  - [ ] Mock DOM structures for testing
-  - [ ] Test adapter detection and selector accuracy
+- [x] Task 5: Add comprehensive testing (AC: #1-6)
+  - [x] Create tests/unit/extension/content.test.ts
+  - [x] Create tests/unit/extension/adapters/mangadex.test.ts
+  - [x] Mock DOM structures for testing
+  - [x] Test adapter detection and selector accuracy
 
 ## Dev Notes
 
@@ -124,22 +124,35 @@ src/
 
 ### Agent Model Used
 
-Claude 3.5 Sonnet
+Claude Sonnet 4.5
 
 ### Debug Log References
 
+- Fixed chapter number extraction regex to handle hyphenated URL patterns (e.g. `/Chapter-10`) by changing `\s+` to `[-\s]+`
+- Added `src/extension/chrome.d.ts` to declare `chrome` namespace without requiring `@types/chrome` package
+
 ### Completion Notes List
+
+- All 5 tasks completed. 50 new tests written (27 mangadex + 23 content), all passing.
+- `chrome` global declared via `src/extension/chrome.d.ts` (minimal declaration, no new npm dependency needed)
+- Content script uses MutationObserver for dynamic content + scroll debouncing (500ms) + 5s progress interval
+- Adapter registry uses Strategy pattern — new sites added via `registerAdapter()`
+- `sendProgressUpdate` gracefully handles missing chrome runtime (returns `{success: false}` instead of throwing)
+- `getState()` returns a shallow copy to prevent external mutation
+- Test baseline: 823 tests before → 873 tests after (+50, 0 regressions)
 
 ### File List
 
-- [ ] extension/manifest.json
-- [ ] src/extension/content.ts
-- [ ] src/extension/adapters/index.ts
-- [ ] src/extension/adapters/mangadex.ts
-- [ ] src/extension/types.ts
-- [ ] tests/unit/extension/content.test.ts
-- [ ] tests/unit/extension/adapters/mangadex.test.ts
+- [x] extension/manifest.json (NEW)
+- [x] src/extension/types.ts (NEW)
+- [x] src/extension/chrome.d.ts (NEW)
+- [x] src/extension/content.ts (NEW)
+- [x] src/extension/adapters/index.ts (NEW)
+- [x] src/extension/adapters/mangadex.ts (NEW)
+- [x] src/model/schemas/extension.ts (NEW)
+- [x] tests/unit/extension/content.test.ts (NEW)
+- [x] tests/unit/extension/adapters/mangadex.test.ts (NEW)
 
 ### Change Log
 
-[To be updated during implementation]
+- 2026-02-18: Story 4-1 implemented. Created extension manifest (MV3), TypeScript types, MangaDex platform adapter with multi-strategy title/chapter extraction, adapter registry (Strategy pattern), content script with MutationObserver + scroll debouncing + chrome message passing, and 50 unit tests (27 adapter + 23 content). All 873 tests passing, 0 regressions.

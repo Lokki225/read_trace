@@ -346,6 +346,101 @@
         }
       ]
     },
+    "browser-extension-content-script": {
+      "id": "browser-extension-content-script",
+      "title": "Browser Extension Content Script for DOM Monitoring",
+      "slug": "browser-extension-content-script",
+      "description": "Content script that monitors DOM for reading progress on supported scanlation sites (MangaDex)",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-1",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-02-28",
+      "estimatedEffort": "1 week",
+      "tags": ["extension", "content-script", "dom-monitoring", "mangadex"],
+      "dependencies": ["user-authentication"],
+      "acceptanceCriteria": [
+        "Content script injects on MangaDex pages",
+        "Series title detection from page metadata",
+        "Chapter number extraction from URL",
+        "Scroll position monitoring with debouncing",
+        "Progress updates sent to background script",
+        "Multi-platform adapter support"
+      ],
+      "risks": [
+        "MangaDex DOM structure changes",
+        "Content Security Policy violations",
+        "Memory leaks from event listeners",
+        "Scroll event flooding",
+        "XSS vulnerabilities from DOM data"
+      ],
+      "metrics": {
+        "injectionTime": "<100ms",
+        "scrollLatency": "<50ms",
+        "memoryUsage": "<5MB",
+        "testCoverage": "80%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification and implementation tasks complete"
+        }
+      ]
+    },
+    "background-script-realtime-sync": {
+      "id": "background-script-realtime-sync",
+      "title": "Background Script & Real-Time Progress Synchronization",
+      "slug": "background-script-realtime-sync",
+      "description": "Background service worker that syncs progress updates to backend API with offline queue support",
+      "category": "core",
+      "currentState": "IMPLEMENTED",
+      "confidence": "HIGH",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-2",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-02-28",
+      "estimatedEffort": "1 week",
+      "tags": ["extension", "background-script", "sync", "offline-first"],
+      "dependencies": ["browser-extension-content-script"],
+      "acceptanceCriteria": [
+        "Background script captures progress updates from content script",
+        "Progress sent to backend API within 5 seconds",
+        "Offline updates queued to localStorage",
+        "Queued updates synced on reconnection",
+        "Duplicate updates prevented",
+        "All sync events logged for debugging"
+      ],
+      "risks": [
+        "API endpoint unavailability",
+        "localStorage quota exceeded",
+        "Message passing failures",
+        "Queue processing bottleneck",
+        "Unauthorized API access"
+      ],
+      "metrics": {
+        "syncLatency": "<5s",
+        "queueProcessing": "<100ms/update",
+        "memoryUsage": "<10MB",
+        "storageUsage": "<5MB",
+        "testCoverage": "80%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification and implementation tasks complete"
+        }
+      ]
+    },
     "browser-extension": {
       "id": "browser-extension",
       "title": "Browser Extension for Progress Tracking",
@@ -540,13 +635,201 @@
           "notes": "Phase 2 optimizations implemented and deployed"
         }
       ]
+    },
+    "supabase-realtime-subscriptions": {
+      "id": "supabase-realtime-subscriptions",
+      "title": "Supabase Real-Time Subscriptions for Cross-Device Sync",
+      "slug": "supabase-realtime-subscriptions",
+      "description": "Supabase Realtime subscriptions for instant synchronization of reading progress across all user devices",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-3",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-03-11",
+      "estimatedEffort": "3 weeks",
+      "tags": ["realtime", "synchronization", "supabase", "cross-device"],
+      "dependencies": ["user-authentication", "browser-extension", "dashboard"],
+      "acceptanceCriteria": [
+        "Progress updates saved to Supabase",
+        "Realtime subscriptions push updates to other devices",
+        "Dashboard reflects updates within 1 second",
+        "Browser extension updates local state",
+        "Conflict resolution favors most recent update",
+        "Consistent state across all devices"
+      ],
+      "risks": [
+        "Supabase Realtime unavailability",
+        "Memory leaks in subscriptions",
+        "Update latency exceeds 1 second",
+        "Concurrent update conflicts",
+        "RLS policy misconfiguration"
+      ],
+      "metrics": {
+        "updateLatency": "<1000ms",
+        "syncAccuracy": "99.9%",
+        "testCoverage": "90%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
+    },
+    "local-storage-offline-functionality": {
+      "id": "local-storage-offline-functionality",
+      "title": "Local Storage for Offline Functionality",
+      "slug": "local-storage-offline-functionality",
+      "description": "Browser localStorage-based offline storage with automatic sync when connection is restored",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-5",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-03-11",
+      "estimatedEffort": "3 weeks",
+      "tags": ["offline", "storage", "sync", "extension"],
+      "dependencies": ["browser-extension", "realtime-subscriptions"],
+      "acceptanceCriteria": [
+        "Progress saved to local storage when offline",
+        "Extension continues tracking in offline mode",
+        "Local data syncs when connection restored",
+        "No data loss during offline periods",
+        "Users notified of sync status",
+        "Local storage cleared after successful sync"
+      ],
+      "risks": [
+        "Storage quota exceeded",
+        "Data loss during sync",
+        "Sync latency exceeds target",
+        "Memory leaks in detector",
+        "Storage performance degradation"
+      ],
+      "metrics": {
+        "syncLatency": "<5000ms",
+        "storageOperations": "<100ms",
+        "testCoverage": "90%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification complete with acceptance criteria, test scenarios, risks, and implementation tasks"
+        }
+      ]
+    },
+    "platform-adapter-architecture": {
+      "id": "platform-adapter-architecture",
+      "title": "Platform Adapter Architecture for MangaDex & Additional Sites",
+      "slug": "platform-adapter-architecture",
+      "description": "Flexible, extensible platform adapter system for supporting multiple scanlation sites with pluggable adapters",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-4",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-03-15",
+      "estimatedEffort": "3 weeks",
+      "tags": ["extension", "adapters", "multi-platform", "architecture"],
+      "dependencies": ["browser-extension-content-script", "background-script-realtime-sync"],
+      "acceptanceCriteria": [
+        "Adapter interface definition with site-specific DOM selectors",
+        "HTML structure handling for different sites",
+        "Reading data detection (series, chapter, progress)",
+        "Extensibility design for new platforms",
+        "Adapter testing against real site structures",
+        "Multi-platform support (MangaDex + 1 additional)"
+      ],
+      "risks": [
+        "Site HTML structure changes",
+        "Selector brittleness",
+        "Dynamic content loading",
+        "Adapter detection performance",
+        "Platform selection difficulty"
+      ],
+      "metrics": {
+        "adapterDetectionTime": "<100ms",
+        "dataExtractionTime": "<500ms",
+        "testCoverage": "85%+",
+        "supportedPlatforms": "2+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification and implementation tasks complete"
+        }
+      ]
+    },
+    "cross-platform-accuracy": {
+      "id": "cross-platform-accuracy",
+      "title": "95% Accuracy Cross-Platform State Synchronization",
+      "slug": "cross-platform-accuracy",
+      "description": "Comprehensive accuracy testing and validation framework ensuring 95% accuracy in detecting chapter numbers and scroll positions across different scanlation sites",
+      "category": "core",
+      "currentState": "SPECIFIED",
+      "confidence": "MEDIUM",
+      "priority": "HIGH",
+      "epic": "4",
+      "story": "4-6",
+      "assignedTo": "",
+      "proposedBy": "product-team",
+      "proposedDate": "2026-02-18",
+      "targetDate": "2026-03-11",
+      "estimatedEffort": "3 weeks",
+      "tags": ["accuracy", "testing", "validation", "cross-platform", "extension"],
+      "dependencies": ["platform-adapter-architecture", "browser-extension-content-script"],
+      "acceptanceCriteria": [
+        "Detect chapters with 95% accuracy on test sites",
+        "Track scroll position within 5% of page height",
+        "Handle multi-chapter pages (webtoons)",
+        "Support horizontal scroll layouts",
+        "Handle dynamic content loading",
+        "Log all detection failures with context",
+        "Collect accuracy metrics per platform"
+      ],
+      "risks": [
+        "Site structure changes break detection",
+        "95% accuracy threshold unachievable",
+        "Detection speed exceeds 500ms",
+        "Sensitive data exposure in logs",
+        "Database performance degradation",
+        "User distrust from inaccurate detection"
+      ],
+      "metrics": {
+        "detectionAccuracy": "95%+",
+        "scrollPositionError": "<5%",
+        "detectionSpeed": "<500ms",
+        "testCoverage": "90%+"
+      },
+      "history": [
+        {
+          "date": "2026-02-18",
+          "state": "SPECIFIED",
+          "notes": "Feature specification, acceptance criteria, test scenarios, risks, and implementation tasks complete"
+        }
+      ]
     }
   },
   "metadata": {
-    "totalFeatures": 8,
+    "totalFeatures": 11,
     "stateDistribution": {
       "PROPOSED": 2,
-      "SPECIFIED": 1,
+      "SPECIFIED": 4,
       "IMPLEMENTED": 1,
       "VERIFIED": 1,
       "SHIPPED": 1,
@@ -557,18 +840,18 @@
     },
     "confidenceDistribution": {
       "HIGH": 4,
-      "MEDIUM": 3,
+      "MEDIUM": 6,
       "LOW": 1
     },
     "categoryDistribution": {
-      "core": 4,
+      "core": 7,
       "enhancement": 1,
       "new": 1,
       "infrastructure": 1,
       "bugfix": 0
     },
     "priorityDistribution": {
-      "HIGH": 5,
+      "HIGH": 8,
       "MEDIUM": 2,
       "LOW": 1
     }
