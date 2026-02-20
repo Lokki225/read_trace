@@ -62,7 +62,9 @@
         chapter: update.chapter,
         scroll_position: update.scroll_position,
         timestamp: update.timestamp,
-        seriesTitle: update.seriesTitle
+        seriesTitle: update.seriesTitle,
+        url: update.url,
+        platform: update.platform
       };
       if (userId) {
         body.user_id = userId;

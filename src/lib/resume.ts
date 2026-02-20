@@ -6,16 +6,59 @@ const ALLOWED_DOMAINS: Record<ResumePlatform, string[]> = {
   unknown: [],
 };
 
-export function constructMangaDexUrl(chapterId: string, pageNumber?: number): string {
+export function constructMangaDexUrl(chapterId: string, pageNumber?: number, originalUrl?: string | null): string {
+  // Prefer original URL to extract the real chapter UUID and existing page segment
+  if (originalUrl) {
+    try {
+      const parsed = new URL(originalUrl);
+      const match = parsed.pathname.match(/\/chapter\/([^/]+)(?:\/(\d+))?/);
+      const sourceChapterId = match?.[1] || chapterId;
+      const sourcePage = match?.[2];
+
+      const effectiveId = sourceChapterId || chapterId;
+      const effectivePage = pageNumber !== undefined && pageNumber !== null ? pageNumber : sourcePage;
+
+      parsed.pathname = `/chapter/${encodeURIComponent(effectiveId)}${
+        effectivePage !== undefined && effectivePage !== null ? `/${effectivePage}` : ''
+      }`;
+
+      // Remove conflicting page query if present unless we're intentionally setting it
+      if (pageNumber === undefined || pageNumber === null) {
+        parsed.searchParams.delete('page');
+      } else {
+        parsed.searchParams.set('page', String(pageNumber));
+      }
+
+      return parsed.toString();
+    } catch {
+      // Fall back to canonical build below
+    }
+  }
+
   const base = `https://mangadex.org/chapter/${encodeURIComponent(chapterId)}`;
-  return pageNumber !== undefined ? `${base}?page=${pageNumber}` : base;
+  if (pageNumber !== undefined && pageNumber !== null) {
+    return `${base}/${pageNumber}`;
+  }
+  return base;
 }
 
 export function constructWebtoonUrl(
   seriesSlug: string,
   episodeNumber: number,
-  _pageNumber?: number
+  _pageNumber?: number,
+  originalUrl?: string | null
 ): string {
+  // Prefer rebuilding from the original URL to preserve locale/title_no structure
+  if (originalUrl) {
+    try {
+      const parsed = new URL(originalUrl);
+      parsed.searchParams.set('episode_no', String(episodeNumber));
+      return parsed.toString();
+    } catch {
+      // Fall back to slug-based construction below
+    }
+  }
+
   return `https://www.webtoons.com/en/${encodeURIComponent(seriesSlug)}?episode_no=${episodeNumber}`;
 }
 
@@ -42,10 +85,10 @@ export function buildResumeUrl(data: ResumeUrlData): string | null {
 
     switch (data.platform) {
       case 'mangadex':
-        url = constructMangaDexUrl(data.seriesId, data.pageNumber);
+        url = constructMangaDexUrl(data.seriesId, data.pageNumber, data.originalUrl);
         break;
       case 'webtoon':
-        url = constructWebtoonUrl(data.seriesId, data.chapterNumber, data.pageNumber);
+        url = constructWebtoonUrl(data.seriesId, data.chapterNumber, data.pageNumber, data.originalUrl);
         break;
       default:
         return null;

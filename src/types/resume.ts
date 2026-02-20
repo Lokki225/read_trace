@@ -12,6 +12,7 @@ export interface ResumeUrlData {
   seriesId: string;
   chapterNumber: number;
   pageNumber?: number;
+  originalUrl?: string | null;
 }
 
 export interface ResumeNavigationResult {

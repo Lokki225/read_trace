@@ -39,6 +39,8 @@ export async function syncProgress(update: BackgroundProgressUpdate, userId?: st
       scroll_position: update.scroll_position,
       timestamp: update.timestamp,
       seriesTitle: update.seriesTitle,
+      url: update.url,
+      platform: update.platform,
     };
     
     if (userId) {

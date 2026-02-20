@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
+import { buildResumeUrlViaAdapter } from '@/lib/resumeAdapters';
 
 function getCorsHeaders(request?: NextRequest): Record<string, string> {
   const origin = request?.headers.get('origin') ?? '*';
@@ -24,6 +25,8 @@ interface SyncRequestBody {
   timestamp: number;
   seriesTitle?: string;
   user_id?: string;
+  url?: string;
+  platform?: string;
 }
 
 function isValidBody(body: unknown): body is SyncRequestBody {
@@ -63,7 +66,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     ));
   }
 
-  const { chapter, scroll_position, timestamp, seriesTitle, user_id: bodyUserId, series_id } = body;
+  const { chapter, scroll_position, timestamp, seriesTitle, user_id: bodyUserId, series_id, url, platform } = body;
 
   // Try to get user from session cookie first, fall back to body user_id (extension)
   const cookieStore = await cookies();
@@ -95,6 +98,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const displayTitle = seriesTitle || series_id;
   const normalizedTitle = displayTitle.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+
+  // Build resume URL via platform adapters
+  const resumeUrl = platform && chapter
+    ? buildResumeUrlViaAdapter({
+        platform,
+        seriesId: series_id,
+        chapterNumber: chapter,
+        originalUrl: url,
+        scrollPosition: scroll_position,
+      })
+    : null;
 
   // Find or create the series entry in user_series
   const { data: existingSeriesList, error: selectError } = await (adminSupabase as any)
@@ -129,6 +143,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         last_read_at: new Date(timestamp).toISOString(),
         updated_at: new Date().toISOString(),
         status: 'reading',
+        ...(resumeUrl && { resume_url: resumeUrl }),
       })
       .eq('id', userSeriesId);
   } else {
@@ -138,11 +153,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         user_id: userId,
         title: displayTitle,
         normalized_title: normalizedTitle,
-        platform: 'Webtoon',
+        platform: platform || 'Webtoon',
         status: 'reading',
         current_chapter: chapter,
         progress_percentage: Math.round(scroll_position),
         last_read_at: new Date(timestamp).toISOString(),
+        ...(resumeUrl && { resume_url: resumeUrl }),
       })
       .select('id')
       .single();
